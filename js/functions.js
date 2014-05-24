@@ -12,10 +12,9 @@ function load_image (sImageSrc, p_private_config, p_editor_config, p_public_conf
 	return img;
 }
 
-function dragStoped (e, div) {
-	console.log('caca', e, div)
+function dragStoped(e, div) {
+	console.log('caca', e, div, div.helper.context.id)
 }
-
 
 function is_square_over (xywh) {
 
