@@ -12,9 +12,6 @@ function init_game () {
 	var editor_config 	= new_editor_config();
 	var public_config 	= new_public_config();
 
-	private_config.img_files.forEach(function (file) {
-		private_config.tilset_img = load_image(file, private_config);
-	});
 
 	mouse.setOffset(private_config.canvas.offsetLeft, private_config.canvas.offsetTop);
 
@@ -22,20 +19,26 @@ function init_game () {
 	private_config.ace_editor.getSession().setMode("ace/mode/javascript");
 	resize_canvas(private_config);
 
-	addEventListener('resize', function(){resize_canvas(private_config)});
+	window.addEventListener('resize', function(){resize_canvas(private_config)});
 	
 	for (var bt in private_config.buttons) {
 
 		var click_function = bt + '_onclick';
-		if ([click_function] && private_config.buttons[bt]) {
-			private_config.buttons[bt].addEventListener('click', function () {
-				[click_function](private_config, editor_config, public_config);
-			});
+
+		if (window[click_function] && private_config.buttons[bt]) {
+			private_config.buttons[bt].action = window[click_function];
+			private_config.buttons[bt].addEventListener('click', function(){this.action(private_config, editor_config, public_config)});
 		}
 	};
 
-	private_config.can_edit = true;
-	create_empty_map(private_config, editor_config, public_config);
-	//draw(private_config, editor_config, public_config);
-	step(private_config, editor_config, public_config);
+	private_config.img_files.forEach(function (file) {
+		private_config.tilset_img = load_image(file, private_config, editor_config, public_config);
+	});
+}
+
+function loading_end (p_private_config, p_editor_config, p_public_config) {
+
+	p_private_config.can_edit = true;
+	create_empty_map(p_private_config, p_editor_config, p_public_config);
+	step(p_private_config, p_editor_config, p_public_config);	
 }
