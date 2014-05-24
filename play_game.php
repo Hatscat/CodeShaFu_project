@@ -9,7 +9,7 @@
 	  <title>Foundation | Welcome</title>
 	  <link rel="stylesheet" href="css/foundation.css" />
 	  <link rel="stylesheet" href="css/style.css" />
-	  <script src="js/lib/vendor/modernizr.js"></script>
+	  <script src="js/libs/vendor/modernizr.js"></script>
 	</head>
 
 	<body> <!-- id="cleanScreen" to remove some stuffs -->
@@ -51,17 +51,21 @@
 		<div class="rowCustom">
 		    <div class="large-8 large-offset-2 columns">
 		    	<pre id="editor"></pre>
-		    	<p>caca</p>
 		    </div>
 
 		</div>
 
 
-		<script src="js/lib/vendor/jquery.js"></script>
-		<script src="js/lib/foundation.min.js"></script>
-		<script src="js/lib/ace-builds/src-noconflict/ace.js" type="text/javascript"></script>
+		<script src="js/libs/vendor/jquery.js"></script>
+		<script src="js/libs/foundation.min.js"></script>
+		<script src="js/libs/ace.js" type="text/javascript"></script>
 		<script>
 		  $(document).foundation();
+		</script>
+		<script>
+		    editor = ace.edit("editor");
+		    editor.setTheme("ace/theme/monokai");
+		    editor.getSession().setMode("ace/mode/javascript");
 		</script>
 
 	</body>
