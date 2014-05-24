@@ -4,49 +4,44 @@
 <html>
 
 	<head>
-		<meta charset="utf-8" />
-		<title>editor</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	  <meta charset="utf-8" />
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  <title>Foundation | Welcome</title>
+	  <link rel="stylesheet" href="css/foundation.css" />
+	  <script src="js/vendor/modernizr.js"></script>
 	</head>
+
 	<body> <!-- id="cleanScreen" to remove some stuffs -->
-		<canvas id="canvas">
-			This browser is not supported
-		</canvas>
 
-		<img id="banTelethon" src="img/banniere.jpg" alt="banniere telethon" />
-
-		<div id="container2">
-			<div id="text"></div>
+		<div class="row">
+		  <div class="large-5 large-offset-4 columns">
+		    <h1>CodShaFu</h1>
 		</div>
 
-		<div id="chat">
-			<img id="chat" src="img/chat1.png" alt="un chat" />
+		<div class="row">
+		  <div class="large-6 large-offset-2 columns">
+		    <img src="img/chat.png" alt="en attente de logo here's a cat">
+		  </div>
 		</div>
 
-		<div id="bubule"></div>
+		<div class="row">
+		  <div class="large-3 large-centered columns">
+		  	<a href="game_list.php" class="large radius round button">Play</a><br/>
+		</div>
 
-		<div id="bubule2"></div>
-		
-		<div id="container3">
-			<div id="text2"></div>
+		<div class="row">
+		  <div class="large-3 large-centered columns">
+		  	<a href="new_game.php" class="large radius round button">Create</a><br/>
+		  </div>
 		</div>
-		
-		<div id="container">
-			<button class="button" id="run_button">RUN</button>
-			<button class="button" id="reset_button">RESET</button>
-			<input type="text" id="save_name" placeholder="ex: amazingName"/>
-			<button class="button" id="save_button">SAVE MAP</button>
-			<button class="button" id="load_button">LOAD MAP</button>
-			
-			<pre id="editor"></pre>
-		</div>
+
+		<script src="js/libs/vendor/jquery.js"></script>
+		<script src="js/libs/foundation.min.js"></script>
+		<script>
+		  $(document).foundation();
+		</script>
 
 	</body>
-
-	<script src="js/jquery.min.js" type="text/javascript"></script>
-	<script src="js/ace-builds/src-noconflict/ace.js" type="text/javascript"></script>
-	<script src="js/main.js" type="text/javascript"></script>
-	<script src="js/content.js" type="text/javascript"></script>
-	<script src="js/runLoop.js" type="text/javascript"></script>
+	
 
 </html>

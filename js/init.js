@@ -20,7 +20,7 @@ function init_game () {
 
 	private_config.ace_editor.setTheme("ace/theme/monokai");
 	private_config.ace_editor.getSession().setMode("ace/mode/javascript");
-	private_config.ace_editor.resize();
+	resize_canvas(private_config);
 
 	addEventListener('resize', function(){resize_canvas(private_config)});
 	
