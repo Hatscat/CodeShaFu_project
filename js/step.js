@@ -9,11 +9,11 @@ function step (p_private_config, p_editor_config, p_public_config) {
 
 	//draw(p_private_config, p_editor_config, p_public_config);
 
-	p_private_config.text.cat_dialog.innerHTML = p_editor_config.cat_dialog_text;
-	p_private_config.text.gm_rules.innerHTML = p_editor_config.gm_rules_text;
+	//p_private_config.text.cat_dialog.innerHTML = p_editor_config.cat_dialog_text;
+	//p_private_config.text.gm_rules.innerHTML = p_editor_config.gm_rules_text;
 
-	globalVar.context.fillStyle = "#000";
-	globalVar.context.fillRect(0, 0, p_private_config.buffer.width, p_private_config.buffer.height);
+	p_private_config.buffer_ctx.fillStyle = "#000";
+	p_private_config.buffer_ctx.fillRect(0, 0, p_private_config.buffer.width, p_private_config.buffer.height);
 
 	p_public_config.map.forEach(function (tile, i) {
 

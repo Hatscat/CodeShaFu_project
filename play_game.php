@@ -57,16 +57,18 @@
 
 
 		<script src="js/libs/vendor/jquery.js"></script>
+		<script src="js/libs/mouse.js"></script>
 		<script src="js/libs/foundation.min.js"></script>
 		<script src="js/libs/ace.js" type="text/javascript"></script>
 		<script>
 		  $(document).foundation();
 		</script>
-		<script>
-		    editor = ace.edit("editor");
-		    editor.setTheme("ace/theme/monokai");
-		    editor.getSession().setMode("ace/mode/javascript");
-		</script>
+		<script src="js/config.js" type="text/javascript"></script>
+		<script src="js/functions.js" type="text/javascript"></script>
+		<script src="js/tile.class.js" type="text/javascript"></script>
+		<script src="js/events.js" type="text/javascript"></script>
+		<script src="js/step.js" type="text/javascript"></script>
+		<script src="js/init.js" type="text/javascript"></script>
 
 	</body>
 	

@@ -45,8 +45,12 @@
 
 	<script src="js/jquery.min.js" type="text/javascript"></script>
 	<script src="js/ace-builds/src-noconflict/ace.js" type="text/javascript"></script>
-	<script src="js/main.js" type="text/javascript"></script>
-	<script src="js/content.js" type="text/javascript"></script>
-	<script src="js/runLoop.js" type="text/javascript"></script>
+	<script src="js/libs/mouse.js"></script>
+	<script src="js/config.js" type="text/javascript"></script>
+	<script src="js/functions.js" type="text/javascript"></script>
+	<script src="js/tile.class.js" type="text/javascript"></script>
+	<script src="js/events.js" type="text/javascript"></script>
+	<script src="js/step.js" type="text/javascript"></script>
+	<script src="js/init.js" type="text/javascript"></script>
 
 </html>

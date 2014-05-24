@@ -23,7 +23,7 @@ function new_private_config (p_canvas_render, p_canvas_buffer) {
 			active_tile 		: {x:0, y:0},
 			tileset_tilesize 	: 64,
 			img_files : [
-								'img/codShaFu_Tilset.jpg'
+								'img/tilset.jpg'
 			],
 			buttons : {
 				run_pause 		: document.getElementById('run_bt'),
@@ -31,7 +31,7 @@ function new_private_config (p_canvas_render, p_canvas_buffer) {
 				reset 			: document.getElementById('reset_bt'),
 				format 			: document.getElementById('format_bt'),
 				save 			: document.getElementById('save_bt')
-			}
+			},
 			text_inputs : {
 				cat_dialog 		: document.getElementById('cat_dialog_text'),
 				gm_rules 		: document.getElementById('gm_rules_text')
@@ -78,7 +78,6 @@ function new_public_config () {
 */
 function resize_canvas (p_private_config) {
 
-
 	//p_private_config.canvas_size = (p_canvas_render.style.width.replace('%', '') | 0) * 0.01 * window.innerWidth;
 	p_private_config.canvas_size = $("canvas").width();
 	p_private_config.canvas_height = p_private_config.canvas_size * p_private_config.row_col_ratio;
@@ -86,6 +85,6 @@ function resize_canvas (p_private_config) {
 	p_private_config.canvas.width = p_private_config.buffer.width = p_private_config.buffer.height = p_private_config.canvas_size;
 	p_private_config.canvas.height = p_private_config.canvas_height;
 	p_private_config.tile_size = p_private_config.canvas_size / p_private_config.col_nb;
-	$("editor").("height", document.body.offsetHeight - $("editor").offset().top + "px");
+	//$("editor").("height", document.body.offsetHeight - $("editor").offset().top + "px");
 	p_private_config.ace_editor.resize();
 }

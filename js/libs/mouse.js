@@ -37,7 +37,7 @@ THE SOFTWARE.
 		pressed: false,
 		doubleClicks: false,
 		target: { x:0, y:0 },
-		m.setOffset = function (x, y) {
+		setOffset : function (x, y) {
 			m.offsetX = x;
 			m.offsetY = y;
 		}
