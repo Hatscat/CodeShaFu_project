@@ -1,5 +1,17 @@
 function step (p_private_config, p_editor_config, p_public_config) {
 
+	//p_private_config.can_edit = false;
+
+	/*p_public_config.map.forEach(function (tile) {
+		
+		tile.eval_script();
+	}*/
+
+	//draw(p_private_config, p_editor_config, p_public_config);
+
+	//p_private_config.text.cat_dialog.innerHTML = p_editor_config.cat_dialog_text;
+	//p_private_config.text.gm_rules.innerHTML = p_editor_config.gm_rules_text;
+
 	p_private_config.buffer_ctx.fillStyle = "#000";
 	p_private_config.buffer_ctx.fillRect(0, 0, p_private_config.buffer.width, p_private_config.buffer.height);
 
@@ -21,28 +33,17 @@ function step (p_private_config, p_editor_config, p_public_config) {
 
 		p_private_config.buffer_ctx.drawImage(
 			p_private_config.tilset_img,
-			p_private_config.tileset_sprites_sxy[tile.id].sx,
-			p_private_config.tileset_sprites_sxy[tile.id].sy,
+			p_private_config.tilset_sprites_sxy[tile.id].sx,
+			p_private_config.tilset_sprites_sxy[tile.id].sy,
 			p_private_config.tileset_tilesize,
 			p_private_config.tileset_tilesize,
 			(i % p_private_config.col_nb) * p_private_config.tile_size,
-			(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
-			p_private_config.tile_size,
-			p_private_config.tile_size);
-		
-		p_private_config.buffer_ctx.strokeStyle = "#6f6";
-		p_private_config.buffer_ctx.lineWidth = 1;
-		p_private_config.buffer_ctx.strokeRect(
-			(i % p_private_config.col_nb) * p_private_config.tile_size,
-			(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
-			p_private_config.tile_size,
-			p_private_config.tile_size);
+			(i / p_private_config.col_nb | 0) * p_private_config.tile_size);
 	});
 
-	p_private_config.ctx.drawImage(p_private_config.buffer, 0, 0);
+	p_private_config.ctx.drawImage(p_private_config.buffer, 0, -p_private_config.height_diff);
 
-	p_public_config.step_count++;
-
+	p_private_config.step_count++;
 	//console.log(p_public_config.step_count)
 
 //     globalVar.oldMap = [];

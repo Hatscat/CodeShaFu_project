@@ -1,12 +1,14 @@
 /* --------------------------------- Global Functions --------------------------------- */
+function dragStoped(e, div) {
+	console.log('caca')
+}
 
-function load_image (sImageSrc, p_private_config, p_editor_config, p_public_config) {
+function load_image (sImageSrc, p_private_config) {
 
 	var img = new Image();
 	img.onload = function () {
 		// TODO : loader
 		p_private_config.tileset_sprites_sxy = cut_tileset(img, p_private_config.tileset_tilesize);
-		loading_end(p_private_config, p_editor_config, p_public_config);
 	};
 	img.src = sImageSrc;
 	return img;
@@ -62,13 +64,13 @@ function draw_stroke_box (xywh, color, size, p_private_config) {
 
 function create_empty_map (p_private_config, p_editor_config, p_public_config) {
 
-	p_public_config.map = [];
+	var map = [];
 
-	for (var i = p_private_config.tiles_nb; i--; p_public_config.map[i] = new Tile(0, p_public_config));
+	for (var i = p_private_config.tiles_nb; i--; map[i] = new Tile(0, p_public_config));
 	p_private_config.active_tile = {x:0, y:0};
 	//map[0].show_script();
 
-	//return map;
+	return map;
 
 	/*for (var i = 0; i < 16; i++)  // les colonnes
 	{
@@ -83,7 +85,7 @@ function create_empty_map (p_private_config, p_editor_config, p_public_config) {
 	//globalVar.oActiveTile = {x: 0, y: 0};
 	//globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].showScript();
 }
-/*
+
 function draw_map_grid (p_private_config) {
 
 	for (var i = p_map.length; i--;) {
@@ -95,7 +97,7 @@ function draw_map_grid (p_private_config) {
 			p_private_config.tilemap_size,
 			p_private_config.tilemap_size);
 	}
-}*/
+}
 /*
 function readJsonMap (jsonMap) {
 	try

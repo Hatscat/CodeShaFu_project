@@ -22,21 +22,30 @@ function init_game () {
 	for (var bt in private_config.buttons) {
 
 		var click_function = bt + '_onclick';
-
-		if (window[click_function] && private_config.buttons[bt]) {
-			private_config.buttons[bt].action = window[click_function];
-			private_config.buttons[bt].addEventListener('click', function(){this.action(private_config, editor_config, public_config)});
+		if ([click_function] && private_config.buttons[bt]) {
+			private_config.buttons[bt].addEventListener('click', function () {
+				[click_function](private_config, editor_config, public_config);
+			});
 		}
 	};
+	
+	if(private_config.is_editor)
+	{
+		for(var i=0; i<9;i++)
+		{
+			$( "#tile"+i ).draggable({
+				revert: true,
+				helper: 'clone',
+				revertDuration: 10,
+				stop: function(event, ui) {
+					dragStoped(event, ui)
+				}
+			});
+		}
+	}
 
-	private_config.img_files.forEach(function (file) {
-		private_config.tilset_img = load_image(file, private_config, editor_config, public_config);
-	});
-}
-
-function loading_end (p_private_config, p_editor_config, p_public_config) {
-
-	p_private_config.can_edit = true;
-	create_empty_map(p_private_config, p_editor_config, p_public_config);
-	step(p_private_config, p_editor_config, p_public_config);	
+	private_config.can_edit = true;
+	create_empty_map(private_config, editor_config, public_config);
+	//draw(private_config, editor_config, public_config);
+	step(private_config, editor_config, public_config);
 }
