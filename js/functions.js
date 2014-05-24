@@ -1,266 +1,75 @@
-/* --------------------------------- requestAnimFrame --------------------------------- */
-
-window.requestAnimFrame = (
-	function()
-	{
-		return	window.requestAnimationFrame ||
-		window.webkitRequestAnimationFrame ||
-		window.mozRequestAnimationFrame    ||
-		window.oRequestAnimationFrame      ||
-		window.msRequestAnimationFrame     ||
-		function(callback, element)
-		{
-			window.setTimeout(callback, 1000 / 60);
-		};
-	}
-)();
-
-/* --------------------------------- Global Variables --------------------------------- */
-
-var globalVar = {
-		
-	context: null,
-	canvas: null,
-	editor: null,
-
-	imgTileset: null,
-
-	aText: ["Salut, je suis un chat et oui je peux parler. Comme t'es gentil et que t'a rien de mieux à faire tu vas m'aider. Clique sur run pour lancer mon aventure !", 
-			"Aie Aie, je suis trop faible, si seulement quelqu'un pouvait tricher et modifier mes stats...", "YAY je les ai poutré !"],
-	aId : ["ground", "fish", "key", "rat", "cat", "flower", "tree", "chest", "dog", "hole"],
-	aImg_Content: [],
-	aMap: [], /* 16 x 7 tiles */
-	aContent: [], /* models des elements (objets dans les tiles) */
-
-	iTextIndex: 0,
-	iTileSize: 64,
-	iToolsBoxWidth: 70,
-	iFrame: 0,
-	iScore: 0,
-	iCanvas_w: 1024 + 70, /* valeur fixe ! */
-	iCanvas_h: 448, /* valeur fixe ! */
-	iFilesLoaded: 0,
-	iMouse_x: 0,
-	iMouse_y: 0,
-
-	sElementDragId: "",
-	sMode: "",
-	sMapName: "0",
-
-	bMouseDown: false,
-	bPause: true,
-	bElementDrag: false,
-	bNewTurn: false,
-
-	oToolsBox: null, // pour l'éditeur de niveaux
-	oActiveTile: null, // { x:#, y:# }
-	oRootScript: null // le script de base des objets non vides
-};
-
 /* --------------------------------- Global Functions --------------------------------- */
 
-var globalFunc = {
+function load_image (sImageSrc, p_private_config) {
 
-	loadImage: function (sImageSrc)
-	{
-		var img = new Image();
-		img.onload = globalFunc.isLoadedContent;
-		img.src = sImageSrc;
-		return img;
-	},
+	var img = new Image();
+	img.onload = function () {
+		// TODO : loader
+		cut_tileset(img, p_private_config.tileset_tilesize);
+	};
+	img.src = sImageSrc;
+	return img;
+}
 
-	isLoadedContent: function ()
-	{
-		if (++globalVar.iFilesLoaded >= 1)
-			//(globalVar.aImg_Content.length))
-		{
-			init();
-		}
-	},
+function is_square_over (xywh) {
 
-	isButtonClicked: function (xywh)
-	{
-		var mouse = {
-			x: globalVar.iMouse_x - globalVar.canvas.offsetLeft,
-			y: globalVar.iMouse_y - globalVar.canvas.offsetTop
-		};
-
-		if ((globalVar.bMouseDown && mouse.x >= xywh[0] && mouse.x < xywh[0] + xywh[2])
-		&& (mouse.y >= xywh[1] && mouse.y < xywh[1] + xywh[3]))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	},
-
-	drawStrokeBox: function (xywh, color, size)
-	{
-		globalVar.context.strokeStyle = color;
-		globalVar.context.lineWidth = size;
-		globalVar.context.strokeRect(xywh[0], xywh[1], xywh[2], xywh[3]);
-
-		globalVar.context.fillStyle = color;
-		globalVar.context.globalAlpha = 0.25;
-		globalVar.context.fillRect(xywh[0], xywh[1], xywh[2], xywh[3]);
-		globalVar.context.globalAlpha = 1;
+	if (mouse.x >= xywh[0] && mouse.x < xywh[0] + xywh[2] && mouse.y >= xywh[1] && mouse.y < xywh[1] + xywh[3]) {
+		return true;
 	}
-};
-
-/* --------------------------------- Window Events --------------------------------- */
-
-window.onmousemove = function (event)
-{
-	globalVar.iMouse_x = event.x;
-	globalVar.iMouse_y = event.y;
+	return false;
 }
 
-window.onmousedown = function (event)
-{
-	globalVar.bMouseDown = true;
-}
+function cut_tileset (tileset_img, tile_size) {
 
-window.onmouseup = function (event)
-{
-	globalVar.bMouseDown = false;
-}
+	var col_nb = tileset_img.width / tile_size;
+	var row_nb = tileset_img.height / tile_size;
+	var sprites = [];
 
-/* --------------------------------- Initialization --------------------------------- */
-
-window.onload = function () /* 1/2 */
-{
-	/* le chargement de l'image */
-	globalVar.imgTileset = globalFunc.loadImage("img/codShaFu_Tilset.jpg");
-}
-
-function init() /* 2/2 */
-{
-	if (!!document.getElementById("save_button"))
-	{
-		globalVar.sMode = "editor";
+	for (var r = row_nb; r--;) {
+		for (var c = col_nb; c--;) {
+			sprites.push({sx: tile_size * c, sy: tile_size * r});
+		}
 	}
-	else
-	{
-		globalVar.sMode = "game";
-	}
-		
-	globalVar.iTileSize = 64;
 
-	var iColNb = globalVar.imgTileset.width / globalVar.iTileSize;
-	var iRowNb = globalVar.imgTileset.height / globalVar.iTileSize;
-	
+	return sprites;
 
-	for (var s = 1, c = iColNb, r = iRowNb-1;
+	/*for (var s = 1, c = iColNb, r = iRowNb-1;
 		c ? c-- : 0 || r-- ? s-- ? c = iColNb-1 : 0 : 0;
-		globalVar.aImg_Content[(iColNb)*((iRowNb*r)+(1-r))-(iColNb-c)] = {sx: globalVar.iTileSize * c, sy: globalVar.iTileSize * r});
-
-	globalVar.oActiveTile = {
-		x:0,
-		y:0
-	};
-
-	/* la page du navigateur */
-	globalVar.canvas = document.getElementById("canvas");
-	globalVar.context = globalVar.canvas.getContext("2d");
-
-	globalVar.canvas.width = globalVar.iCanvas_w;
-	globalVar.canvas.height = globalVar.iCanvas_h;
-
-	globalVar.canvas.style.left = (window.innerWidth - globalVar.iCanvas_w) * 0.5 + "px";
-	document.getElementById("editor").style.height = window.innerHeight - globalVar.iCanvas_h - document.getElementById("run_button").style.height + "px";
+		globalVar.aImg_Content[(iColNb)*((iRowNb*r)+(1-r))-(iColNb-c)] = {sx: globalVar.iTileSize * c, sy: globalVar.iTileSize * r});*/
 	
-	//document.getElementById("editor").style.left = (window.innerWidth - globalVar.iCanvas_w) * 0.5 + "px";
-
-	/* Ace editor */
-	globalVar.editor = ace.edit("editor");
-    globalVar.editor.setTheme("ace/theme/monokai");
-    globalVar.editor.getSession().setMode("ace/mode/javascript");
-    globalVar.editor.resize();
-
-	/* les objets */
-	globalVar.oToolsBox = {
-
-		x_px: globalVar.iCanvas_w - 70,
-		y_px: 0,
-		w: globalVar.iToolsBoxWidth,
-		h: globalVar.iCanvas_h,
-		color: "#6f6", // vert
-
-		aContent: [],
-
-		display: function ()
-		{
-			globalVar.context.fillStyle = this.color;
-			globalVar.context.fillRect(this.x_px, this.y_px, this.w, this.h);
-
-			for (var i = 0, c = this.aContent.length; i < c; i++)
-			{
-				this.aContent[i].x_px = this.x_px + (globalVar.iToolsBoxWidth - globalVar.iTileSize) * 0.5;
-
-				this.aContent[i].y_px = i * globalVar.iTileSize
-				* (globalVar.iCanvas_h / (globalVar.iTileSize * (this.aContent.length)))
-				+ globalVar.iTileSize * (globalVar.iTileSize / globalVar.iCanvas_h);
-
-				this.aContent[i].draw();
-			}
-		}
-	};
-
-	for (var i = globalVar.aId.length; i--; i)
-			globalVar.oToolsBox.aContent[i] = new Content(globalVar.aId[i], globalVar.aImg_Content[i], "");
-
-
-	for (var i = globalVar.oToolsBox.aContent; i--; console.log(globalVar.oToolsBox.aContent[i]));
-
-
-	globalVar.oToolsBox.aBox = [globalVar.oToolsBox.x_px, globalVar.oToolsBox.y_px, globalVar.oToolsBox.w, globalVar.oToolsBox.h];
-
-	//globalVar.oRootScript = ;
-
-	/* génération de la map */
-	loadMap(globalVar.sMapName);
-
-	//console.log(globalVar.aMap)
-
-	run(0);
 }
 
-function loadMap (sMapName)
-{
-	$.ajax("php/mapData.php", {
+// function overflew_tile (p_game)
+// {
+// 	var x = (p_game.input.activePointer.worldX - p_game.config.hud_column_width) / p_game.gd.cell_size | 0;
+// 	var y = ((p_game.input.activePointer.worldY - p_game.config.hud_height) / p_game.gd.cell_size | 0) * p_game.gd.column_nb;
+	
+// 	return x + y;
+// }
 
-		data: {"requestMap": sMapName},
-		cache: false,
-		success: function (datas)
-		{
-			globalVar.oActiveTile = null;
+function draw_stroke_box (xywh, color, size, p_private_config) {
 
-			var jsonMap = datas;
-			if (jsonMap == "\"miss\"" || !jsonMap.length) // == pas de map
-			{
-				createEmptyMap();
-			}
-			else
-			{
-				readJsonMap(jsonMap);
-				//globalVar.oActiveTile = {x: 0, y: 0};
-				//globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].showScript();
-			}
-		},
-		error: function (datas)
-		{
-			createEmptyMap();
-		}
-	});
+	p_private_config.buffer_ctx.strokeStyle = color;
+	p_private_config.buffer_ctx.lineWidth = size;
+	p_private_config.buffer_ctx.strokeRect(xywh[0], xywh[1], xywh[2], xywh[3]);
+
+	p_private_config.buffer_ctx.fillStyle = color;
+	p_private_config.buffer_ctx.globalAlpha = 0.25;
+	p_private_config.buffer_ctx.fillRect(xywh[0], xywh[1], xywh[2], xywh[3]);
+	p_private_config.buffer_ctx.globalAlpha = 1;
 }
 
-function createEmptyMap ()
-{
+function create_empty_map (p_private_config) {
+
 	var map = [];
 
-	for (var i = 0; i < 16; i++)  // les colonnes
+	for (var i = p_private_config.tiles_nb; i--; map[i] = new Tile(null));
+	p_private_config.active_tile = {x:0, y:0};
+	map[0].show_script();
+
+	return map;
+
+	/*for (var i = 0; i < 16; i++)  // les colonnes
 	{
 		map[i] = [];
 
@@ -268,15 +77,26 @@ function createEmptyMap ()
 		{
 			map[i][j] = new Content("hole", globalVar.aImg_Content[globalVar.aImg_Content.length-1], "");
 		}
-	}
-
-	globalVar.aMap = map;
-	globalVar.oActiveTile = {x: 0, y: 0};
-	globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].showScript();
+	}*/
+	//globalVar.aMap = map;
+	//globalVar.oActiveTile = {x: 0, y: 0};
+	//globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].showScript();
 }
 
-function readJsonMap (jsonMap)
-{
+function draw_map_grid (p_private_config) {
+
+	for (var i = p_map.length; i--;) {
+		p_private_config.buffer_ctx.strokeStyle = "#6f6";
+		p_private_config.buffer_ctx.lineWidth = 1;
+		p_private_config.buffer_ctx.strokeRect(
+			i * p_private_config.tilemap_size,
+			j * p_private_config.tilemap_size,
+			p_private_config.tilemap_size,
+			p_private_config.tilemap_size);
+	}
+}
+/*
+function readJsonMap (jsonMap) {
 	try
 	{
 		var originalMap = JSON.parse(jsonMap);
@@ -335,59 +155,40 @@ function readJsonMap (jsonMap)
 	catch (err) 
 	{
 		console.log("fuck you");
-		createEmptyMap();
+		create_empty_map();
 	}
 }
 
-function drawMap ()//map)
-{
-	for (var i = 0; i < globalVar.aMap.length; i++) // les colonnes
-	{	
-		for (var j = 0; j < globalVar.aMap[i].length; j++) // les lignes
+function loadMap (map_name) {
+	$.ajax("php/mapData.php", {
+
+		data: {"requestMap": map_name},
+		cache: false,
+		success: function (datas)
 		{
-			globalVar.aMap[i][j].x_px = i * globalVar.iTileSize;
-			globalVar.aMap[i][j].y_px = j * globalVar.iTileSize;
+			globalVar.oActiveTile = null;
 
-			globalVar.aMap[i][j].x = i;
-			globalVar.aMap[i][j].y = j;
-
-			globalVar.aMap[i][j].draw();
+			var jsonMap = datas;
+			if (jsonMap == "\"miss\"" || !jsonMap.length) // == pas de map
+			{
+				create_empty_map();
+			}
+			else
+			{
+				readJsonMap(jsonMap);
+				//globalVar.oActiveTile = {x: 0, y: 0};
+				//globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].showScript();
+			}
+		},
+		error: function (datas) {
+			create_empty_map();
 		}
-	}
-}
-
-function drawMapGrid (map)
-{
-	for (var i = 0; i < globalVar.aMap.length; i++) // les colonnes
-	{	
-		for (var j = 0; j < globalVar.aMap[0].length; j++) // les lignes
-		{
-			globalVar.context.strokeStyle = "#6f6";
-			globalVar.context.lineWidth = 1;
-			globalVar.context.strokeRect(i * globalVar.iTileSize, j * globalVar.iTileSize, 
-				globalVar.iTileSize, globalVar.iTileSize);
-		}
-	}
-}
-
-document.getElementById("run_button").onclick = function()
-{
-	globalVar.bPause = !globalVar.bPause;
-
-	if (globalVar.bPause)
-	{
-		document.getElementById("run_button").innerHTML = "RUN";
-		//document.getElementById("run_button").className = "RUN";
-	}
-	else
-	{
-		document.getElementById("run_button").innerHTML = "STOP";
-	}
+	});
 }
 
 document.getElementById("reset_button").onclick = function()
 {
-	if (confirm("êtes vous sûr ?")) createEmptyMap();
+	if (confirm("êtes vous sûr ?")) create_empty_map();
 }
 
 document.getElementById("save_button").onclick = function()
@@ -425,7 +226,7 @@ document.getElementById("save_button").onclick = function()
 	});
 
 	document.getElementById("save_name").value = "";
-	createEmptyMap();
+	create_empty_map();
 }
 
 document.getElementById("load_button").onclick = function()
@@ -546,3 +347,4 @@ function fight (A, B) // ok 	A = { life: #, attack: #, defense: # }
 	}
 }
 
+*/

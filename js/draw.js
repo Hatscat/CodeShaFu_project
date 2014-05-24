@@ -1,33 +1,23 @@
-/* --------------------------------- Run Loop --------------------------------- */
-var oldFrameTimestamp = 0;
-var gameTime = 0; // le temps passé depuis le début du jeu (au total), en millisecondes
-var iTurn =  0;
-
-function run (timestamp)
-{	
-	var timeSinceLastFrame = timestamp - oldFrameTimestamp;
-	oldFrameTimestamp = timestamp;
-	var deltaTime = timeSinceLastFrame * 60 / 1000; // le ratio à multiplier par les valeurs à scaler
-	gameTime += timeSinceLastFrame; // le temps passé depuis le début du jeu (au total), en millisecondes
-
-    globalVar.oldMap = [];
+function draw (p_private_config, p_editor_config, p_public_config) {
+	
+   /* globalVar.oldMap = [];
 	for (var i = 0; i < globalVar.aMap.length; i++) {
 	    globalVar.oldMap[i] = [];
 		for(var j = 0;j < globalVar.aMap[i].length;j++)
 		{
 			globalVar.oldMap[i][j] = globalVar.aMap[i][j];
 		}
-	};
+	};*/
 
-	requestAnimFrame(function(timestamp){run(timestamp)});
-
-	var boxText = document.getElementById('text');
-	boxText.innerHTML = globalVar.aText[globalVar.iTextIndex];
-
-	var boxText2 = document.getElementById('text2');
+	p_private_config.text.cat_dialog.innerHTML = p_editor_config.cat_dialog_text;
+	p_private_config.text.gm_rules.innerHTML = p_editor_config.gm_rules_text;
 
 	globalVar.context.fillStyle = "#000";
-	globalVar.context.fillRect(0, 0, globalVar.iCanvas_w, globalVar.iCanvas_y);
+	globalVar.context.fillRect(0, 0, p_private_config.buffer.width, p_private_config.buffer.height);
+
+	p_public_config.map.forEach(function (tile) {
+		p_private_config.buffer
+	});
 
 /* ****************** Scene ****************** */
 

@@ -1,190 +1,84 @@
-/* --------------------------------- Run Loop --------------------------------- */
-var oldFrameTimestamp = 0;
-var gameTime = 0; // le temps passé depuis le début du jeu (au total), en millisecondes
-var iTurn =  0;
+/*
+** return some brand new config
+*/
+function new_private_config (p_canvas_render, p_canvas_buffer) {
 
-function run (timestamp)
-{	
-	var timeSinceLastFrame = timestamp - oldFrameTimestamp;
-	oldFrameTimestamp = timestamp;
-	var deltaTime = timeSinceLastFrame * 60 / 1000; // le ratio à multiplier par les valeurs à scaler
-	gameTime += timeSinceLastFrame; // le temps passé depuis le début du jeu (au total), en millisecondes
+	if (p_canvas_render && p_canvas_buffer) {
 
-    globalVar.oldMap = [];
-	for (var i = 0; i < globalVar.aMap.length; i++) {
-	    globalVar.oldMap[i] = [];
-		for(var j = 0;j < globalVar.aMap[i].length;j++)
-		{
-			globalVar.oldMap[i][j] = globalVar.aMap[i][j];
-		}
+		var config = {
+
+			col_nb 				: 16,
+			row_nb 				: 7,
+			canvas 				: p_canvas_render,
+			ctx 				: p_canvas_render.getContext('2d'),
+			buffer 				: p_canvas_buffer,
+			buffer_ctx 			: p_canvas_buffer.getContext('2d'),
+			ace_editor 			: ace.edit('editor'),
+			is_editor 			: false,
+			can_edit 			: true,
+			runIntervalID 		: null,
+			active_tile 		: {x:0, y:0},
+			tileset_tilesize 	: 64,
+			img_files : [
+								'img/codShaFu_Tilset.jpg'
+			],
+			buttons : {
+				run_pause 		: document.getElementById('run_bt'),
+				step 			: document.getElementById('step_bt'),
+				reset 			: document.getElementById('reset_bt'),
+				format 			: document.getElementById('format_bt'),
+				save 			: document.getElementById('save_bt')
+			}
+			text_inputs : {
+				cat_dialog 		: document.getElementById('cat_dialog_text'),
+				gm_rules 		: document.getElementById('gm_rules_text')
+			}
+		};
+
+		config.row_col_ratio = config.row_nb / config.col_nb;
+		config.tiles_nb = config.row_nb * config.col_nb;
+
+		resize_canvas(config);
+
+		return config;
+	}
+}
+
+function new_editor_config () {
+
+	var config = {
+
+		speed 			: 500,
+		cat_dialog_text : '',
+		gm_rules_text 	: ''
 	};
 
-	requestAnimFrame(function(timestamp){run(timestamp)});
+	return config;
+}
 
-	var boxText = document.getElementById('text');
-	boxText.innerHTML = globalVar.aText[globalVar.iTextIndex];
+function new_public_config () {
 
-	var boxText2 = document.getElementById('text2');
+	var config = {
 
-	globalVar.context.fillStyle = "#000";
-	globalVar.context.fillRect(0, 0, globalVar.iCanvas_w, globalVar.iCanvas_y);
+		time 		: 0,
+		step_count 	: 0,
+		is_paused 	: true,
+		map 		: []
+	};
 
-/* ****************** Scene ****************** */
+	return config;
+}
 
-	drawMap(globalVar.aMap);
+/*
+** canvas responsive !
+*/
+function resize_canvas (p_private_config) {
 
-	if (!globalVar.bPause) // le jeu en mode lecture + execution du code de l'éditeur
-	{
-		globalVar.oActiveTile = null;
-		/* ****************** Content ****************** */
-		if (!(((gameTime / 300) | 0) % 2) && globalVar.bNewTurn) // tour par tour
-		{
-			globalVar.bNewTurn = false;
-			iTurn += 1;
-
-			boxText2.innerHTML = "";
-			for (var i = 0; i < globalVar.oldMap.length; i++) // les colonnes
-			{	
-				for (var j = 0; j < globalVar.oldMap[i].length; j++) // les lignes
-				{
-					// var props, sStateProps;
-
-					// for (sStateProps in globalVar.oldMap[i][j]) {
-					// 	props += sStateProps;
-					// };
-
-					var sState = JSON.stringify(globalVar.oldMap[i][j].state);
-					
-					var sText = "<b>" + globalVar.oldMap[i][j].id + " (" + i + ", " + j + ") :</b><br><em>"
-								+ sState + "</em><br>"; //  + globalVar.oldMap[i][j].script
-
-					if (!!globalVar.aMap[i][j].script)
-					{
-						boxText2.innerHTML += sText;
-					}
-
-					globalVar.oldMap[i][j].runScript();
-				}
-			}
-		}
-		else if (((gameTime / 300) | 0) % 2)
-		{
-			globalVar.bNewTurn = true;
-		}
-	}
-	else // en pause == en mode edition
-	{
-		if (!!globalVar.oActiveTile)// && !!globalVar.aMap[0][0].aBox)
-			var aTileBox = [
-				globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].aBox[0],
-				globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].aBox[1],
-				globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].aBox[2],
-				globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].aBox[3]
-			];
-
-		drawMapGrid();
-
-		if (aTileBox) globalFunc.drawStrokeBox(aTileBox, "#f0f", 4);
-		else globalVar.editor.setValue("");
-
-		for (var i = 0; i < globalVar.aMap.length; i++) // les colonnes
-		{
-			for (var j = 0; j < globalVar.aMap[i].length; j++) // les lignes
-			{
-				if (!!globalVar.aMap[i][j].script)
-				{
-					//globalVar.aMap[i][j].reset(); // crado
-
-					var aScriptedBox = [
-						globalVar.aMap[i][j].aBox[0],
-						globalVar.aMap[i][j].aBox[1],
-						globalVar.aMap[i][j].aBox[2],
-						globalVar.aMap[i][j].aBox[3]
-					];
-
-					globalFunc.drawStrokeBox(aScriptedBox, "#33f", 2);
-				}
-			}
-		}
-
-		if (globalVar.sMode == "editor")
-		{
-			globalVar.oToolsBox.display();
-		}
-
-
-		if (globalVar.bMouseDown) ////////////////******************************************----------------____________
-		{
-			var xi = ((globalVar.iMouse_x - globalVar.canvas.offsetLeft) / globalVar.iTileSize) | 0;
-			var yj = ((globalVar.iMouse_y - globalVar.canvas.offsetTop) / globalVar.iTileSize) | 0;
-
-			if (globalVar.oActiveTile) globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].saveScript();	
-			
-			if (xi >= 0 && yj >= 0 && xi < globalVar.aMap.length && yj < globalVar.aMap[0].length)
-			{
-				if (!globalVar.oActiveTile) globalVar.oActiveTile = {x: 0, y: 0};
-
-				globalVar.oActiveTile.x = xi;
-				globalVar.oActiveTile.y = yj;
-
-				globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].showScript();
-				globalVar.editor.focus();
-
-				if (globalVar.bElementDrag)
-				{
-					globalVar.aMap[xi][yj] = new Content(globalVar.aId[globalVar.sElementDragId],
-						globalVar.aImg_Content[globalVar.sElementDragId],
-						"");
-				}
-			}
-
-			else
-			{
-				globalVar.bElementDrag = false;
-
-				for (var i = 0, c = globalVar.oToolsBox.aContent.length; i < c; i++)
-				{
-					if (globalFunc.isButtonClicked(globalVar.oToolsBox.aContent[i].aBox))
-					{
-						globalVar.bElementDrag = true;
-						globalVar.sElementDragId = i;
-						globalVar.oToolsBox.aContent[i].bDragged = false;
-					}
-				}
-			}
-		}
-		else /* globalVar.bMouseDown = false; */
-		{
-			if (globalVar.bElementDrag)
-			{
-				for (var i = 0, c = globalVar.oToolsBox.aContent.length; i < c; i++)
-				{
-					if (i == globalVar.sElementDragId)
-					{	
-						if (!globalVar.oToolsBox.aContent[i].bDragged)
-						{
-							globalVar.oToolsBox.aContent[i].bDragged = true;
-							globalVar.oToolsBox.aContent[i].iOffset_X = 
-								globalVar.iMouse_x - globalVar.canvas.offsetLeft - globalVar.oToolsBox.aContent[i].x_px;
-							globalVar.oToolsBox.aContent[i].iOffset_Y = 
-								globalVar.iMouse_y - globalVar.canvas.offsetTop - globalVar.oToolsBox.aContent[i].y_px;
-						}
-						
-						var local_x = globalVar.iMouse_x - globalVar.canvas.offsetLeft - globalVar.oToolsBox.aContent[i].iOffset_X;
-						var local_y = globalVar.iMouse_y - globalVar.canvas.offsetTop - globalVar.oToolsBox.aContent[i].iOffset_Y;
-
-						globalVar.oToolsBox.aContent[i].drawCopy(local_x, local_y);
-					}
-				}
-			}
-		}
-	}
-
-/* ****************** frame incrementation ****************** */
-
-	if (++globalVar.iFrame > 9999)
-	{
-		globalVar.iFrame = 0;
-		globalVar.context.clearRect(0, 0, globalVar.iCanvas_w, globalVar.iCanvas_y);
-	}
+	p_private_config.canvas_size = (p_canvas_render.style.width.replace('%', '') | 0) * window.innerWidth;
+	p_private_config.canvas_height = p_private_config.canvas_size * p_private_config.row_col_ratio;
+	p_private_config.height_diff = p_private_config.canvas_size- p_private_config.canvas_height;
+	p_private_config.canvas.width = p_private_config.buffer.width = p_private_config.buffer.height = p_private_config.canvas_size;
+	p_private_config.canvas.height = p_private_config.canvas_height;
+	p_private_config.tilemap_size = p_private_config.canvas_size / p_private_config.col_nb;
+	p_private_config.ace_editor.resize();
 }
