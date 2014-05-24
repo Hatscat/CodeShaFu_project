@@ -68,6 +68,7 @@
 		<script src="js/libs/ace.js" type="text/javascript"></script>
 		<script>
 		  $(document).foundation();
+		  is_editor = false;
 		</script>
 		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/functions.js" type="text/javascript"></script>

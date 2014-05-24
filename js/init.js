@@ -29,6 +29,21 @@ function init_game () {
 		}
 	};
 
+	if(is_editor)
+	{
+		for(var i=0; i<9;i++)
+		{
+			$( "#tile"+i ).draggable({
+				revert: true,
+				helper: 'clone',
+				revertDuration: 1,
+				stop: function(event, ui) {
+					dragStoped(event, ui)
+				}
+			});
+		}
+	}
+
 	private_config.img_files.forEach(function (file) {
 		private_config.tilset_img = load_image(file, private_config, editor_config, public_config);
 	});

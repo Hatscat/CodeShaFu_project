@@ -12,6 +12,11 @@ function load_image (sImageSrc, p_private_config, p_editor_config, p_public_conf
 	return img;
 }
 
+function dragStoped(e, div) {
+	console.log('caca')
+}
+
+
 function is_square_over (xywh) {
 
 	if (mouse.x >= xywh[0] && mouse.x < xywh[0] + xywh[2] && mouse.y >= xywh[1] && mouse.y < xywh[1] + xywh[3]) {
