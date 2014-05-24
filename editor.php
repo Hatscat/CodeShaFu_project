@@ -28,13 +28,13 @@
 		    <canvas class="large-8 columns" id="canvas"></canvas>
 
 		    <div class="large-1 columns end">
-		    		<?php 
-		    			$temp = "";
-		    			for($i = 0; $i<9;$i++)
-		    				$temp.='<img id="'.$i.'" src="img/tile'.$i.'.png" alt="tile"><br/>';
+	    		<?php 
+	    			$temp = "";
+	    			for($i = 0; $i<9;$i++)
+	    				$temp.='<div id="tile'.$i.'"><img  src="img/tile'.$i.'.png" alt="tile"></div>';
 
-		    			echo $temp;
-		    		?>
+	    			echo $temp;
+	    		?>
 		    </div>
 
 
@@ -73,6 +73,7 @@
 
 
 		<script src="js/libs/vendor/jquery.js"></script>
+		<script src="js/libs/jquery-ui-1.10.4.min.js"></script>
 		<script src="js/libs/mouse.js"></script>
 		<script src="js/libs/foundation.min.js"></script>
 		<script src="js/libs/ace.js" type="text/javascript"></script>

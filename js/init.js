@@ -33,17 +33,20 @@ function init_game () {
 			});
 		}
 	};
-
-	for(var i=0; i<9;i++)
+	
+	if(private_config.is_editor)
 	{
-		$( "#tile"+i ).draggable({
-			revert: true,
-			helper: 'clone',
-			revertDuration: 10,
-			stop: function(event, ui) {
-				dragStoped(event, ui)
-			}
-		});
+		for(var i=0; i<9;i++)
+		{
+			$( "#tile"+i ).draggable({
+				revert: true,
+				helper: 'clone',
+				revertDuration: 10,
+				stop: function(event, ui) {
+					dragStoped(event, ui)
+				}
+			});
+		}
 	}
 
 	private_config.can_edit = true;
