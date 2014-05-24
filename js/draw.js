@@ -23,13 +23,16 @@ function draw (p_private_config, p_editor_config, p_public_config) {
 			p_private_config.tile_size,
 			p_private_config.tile_size);
 		
-		p_private_config.buffer_ctx.strokeStyle = "#6f6";
-		p_private_config.buffer_ctx.lineWidth = 1;
-		p_private_config.buffer_ctx.strokeRect(
-			(i % p_private_config.col_nb) * p_private_config.tile_size,
-			(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
-			p_private_config.tile_size,
-			p_private_config.tile_size);
+		if (p_private_config.is_paused) {
+			
+			p_private_config.buffer_ctx.strokeStyle = "#393";
+			p_private_config.buffer_ctx.lineWidth = 1;
+			p_private_config.buffer_ctx.strokeRect(
+				(i % p_private_config.col_nb) * p_private_config.tile_size,
+				(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
+				p_private_config.tile_size,
+				p_private_config.tile_size);
+		}
 		
 
 		if (tile.script != p_public_config.setup_script + p_public_config.update_script) {
@@ -39,11 +42,11 @@ function draw (p_private_config, p_editor_config, p_public_config) {
 				(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
 				p_private_config.tile_size,
 				p_private_config.tile_size
-			], '#09f', 2, p_private_config);
+			], '#09f', 0.3, 0, p_private_config);
 		}
 	});
 	
-	draw_stroke_box(active_tile_box, '#a3f', 2, p_private_config);
+	draw_stroke_box(active_tile_box, '#a3f', 0.2, 2, p_private_config);
 
 	p_private_config.ctx.drawImage(p_private_config.buffer, 0, 0);
 

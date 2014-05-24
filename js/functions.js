@@ -12,8 +12,8 @@ function load_image (sImageSrc, p_private_config, p_editor_config, p_public_conf
 	return img;
 }
 
-function dragStoped(e, div) {
-	console.log('caca')
+function dragStoped (e, div) {
+	console.log('caca', e, div)
 }
 
 
@@ -45,14 +45,16 @@ function cut_tileset (tileset_img, tile_size) {
 	
 }
 
-function draw_stroke_box (xywh, color, size, p_private_config) {
+function draw_stroke_box (xywh, color, alpha, size, p_private_config) {
 
-	p_private_config.buffer_ctx.strokeStyle = color;
-	p_private_config.buffer_ctx.lineWidth = size;
-	p_private_config.buffer_ctx.strokeRect(xywh[0], xywh[1], xywh[2], xywh[3]);
+	if (size) {
+		p_private_config.buffer_ctx.strokeStyle = color;
+		p_private_config.buffer_ctx.lineWidth = size;
+		p_private_config.buffer_ctx.strokeRect(xywh[0], xywh[1], xywh[2], xywh[3]);
+	}
 
 	p_private_config.buffer_ctx.fillStyle = color;
-	p_private_config.buffer_ctx.globalAlpha = 0.25;
+	p_private_config.buffer_ctx.globalAlpha = alpha;
 	p_private_config.buffer_ctx.fillRect(xywh[0], xywh[1], xywh[2], xywh[3]);
 	p_private_config.buffer_ctx.globalAlpha = 1;
 }
