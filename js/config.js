@@ -16,7 +16,10 @@ function new_private_config (p_canvas_render, p_canvas_buffer) {
 			ace_editor 			: ace.edit('editor'),
 			is_editor 			: false,
 			can_edit 			: true,
+			is_paused 			: true,
 			runIntervalID 		: null,
+			tileset_sprites_sxy : null,
+			tilset_img 			: null,
 			active_tile 		: {x:0, y:0},
 			tileset_tilesize 	: 64,
 			img_files : [
@@ -60,10 +63,11 @@ function new_public_config () {
 
 	var config = {
 
-		time 		: 0,
-		step_count 	: 0,
-		is_paused 	: true,
-		map 		: []
+		time 			: 0,
+		step_count 		: 0,
+		map 			: [],
+		setup_script 	: 'this.setup = function () {\n\n\n}\n',
+		update_script 	: '\nthis.update = function () {\n\n\n}'
 	};
 
 	return config;
@@ -74,12 +78,14 @@ function new_public_config () {
 */
 function resize_canvas (p_private_config) {
 
+
+	//p_private_config.canvas_size = (p_canvas_render.style.width.replace('%', '') | 0) * 0.01 * window.innerWidth;
 	p_private_config.canvas_size = $("canvas").width();
 	p_private_config.canvas_height = p_private_config.canvas_size * p_private_config.row_col_ratio;
-	p_private_config.height_diff = p_private_config.canvas_size- p_private_config.canvas_height;
+	p_private_config.height_diff = p_private_config.canvas_size - p_private_config.canvas_height;
 	p_private_config.canvas.width = p_private_config.buffer.width = p_private_config.buffer.height = p_private_config.canvas_size;
 	p_private_config.canvas.height = p_private_config.canvas_height;
-	p_private_config.tilemap_size = p_private_config.canvas_size / p_private_config.col_nb;
-	$("editor").("height", document.body.offsetHeight; - $("editor").offset().top + "px");
+	p_private_config.tile_size = p_private_config.canvas_size / p_private_config.col_nb;
+	$("editor").("height", document.body.offsetHeight - $("editor").offset().top + "px");
 	p_private_config.ace_editor.resize();
 }

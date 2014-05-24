@@ -13,7 +13,7 @@ function init_game () {
 	var public_config 	= new_public_config();
 
 	private_config.img_files.forEach(function (file) {
-		load_image(file);
+		private_config.tilset_img = load_image(file);
 	});
 
 	mouse.setOffset(private_config.canvas.offsetLeft, private_config.canvas.offsetTop);
@@ -37,5 +37,6 @@ function init_game () {
 	});
 
 	private_config.can_edit = true;
+	create_empty_map(private_config, editor_config, public_config);
 	draw(private_config, editor_config, public_config);
 }
