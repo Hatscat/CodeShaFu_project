@@ -74,6 +74,7 @@
 		<script src="js/functions.js" type="text/javascript"></script>
 		<script src="js/tile.class.js" type="text/javascript"></script>
 		<script src="js/events.js" type="text/javascript"></script>
+		<script src="js/draw.js" type="text/javascript"></script>
 		<script src="js/step.js" type="text/javascript"></script>
 		<script src="js/init.js" type="text/javascript"></script>
 

@@ -1,8 +1,9 @@
 /* ******* Tile class ******* */
 
-var Tile = function (p_id, p_public_config) {
+var Tile = function (p_id, p_pos, p_public_config) {
 
 	this.id 			= p_id;
+	this.pos 			= p_pos;
 	this.game_config 	= p_public_config;
 	this.script 		= this.game_config.setup_script + this.game_config.update_script;
 	this.below 			= null;

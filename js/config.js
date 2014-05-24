@@ -21,7 +21,7 @@ function new_private_config (p_canvas_render, p_canvas_buffer) {
 			tileset_sprites_sxy : null,
 			tilset_img 			: null,
 			mouse_pos 			: -1,
-			active_tile 		: {x:0, y:0},
+			active_tile 		: 0,
 			tileset_tilesize 	: 64,
 			img_files : [
 								'img/tilset.jpg'

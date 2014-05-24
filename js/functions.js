@@ -45,14 +45,6 @@ function cut_tileset (tileset_img, tile_size) {
 	
 }
 
-// function overflew_tile (p_game)
-// {
-// 	var x = (p_game.input.activePointer.worldX - p_game.config.hud_column_width) / p_game.gd.cell_size | 0;
-// 	var y = ((p_game.input.activePointer.worldY - p_game.config.hud_height) / p_game.gd.cell_size | 0) * p_game.gd.column_nb;
-	
-// 	return x + y;
-// }
-
 function draw_stroke_box (xywh, color, size, p_private_config) {
 
 	p_private_config.buffer_ctx.strokeStyle = color;
@@ -69,25 +61,23 @@ function create_empty_map (p_private_config, p_editor_config, p_public_config) {
 
 	p_public_config.map = [];
 
-	for (var i = p_private_config.tiles_nb; i--; p_public_config.map[i] = new Tile(0, p_public_config));
-	p_private_config.active_tile = {x:0, y:0};
-	//map[0].show_script();
-
-	//return map;
-
-	/*for (var i = 0; i < 16; i++)  // les colonnes
-	{
-		map[i] = [];
-
-		for (var j = 0; j < 7; j++) // les lignes
-		{
-			map[i][j] = new Content("hole", globalVar.aImg_Content[globalVar.aImg_Content.length-1], "");
-		}
-	}*/
-	//globalVar.aMap = map;
-	//globalVar.oActiveTile = {x: 0, y: 0};
-	//globalVar.aMap[globalVar.oActiveTile.x][globalVar.oActiveTile.y].showScript();
+	for (var i = p_private_config.tiles_nb; i--; p_public_config.map[i] = new Tile(0, i, p_public_config));
+	p_private_config.active_tile = 0;
+	show_script(p_private_config, p_public_config.map[0]);
 }
+
+function show_script (p_private_config, p_tile) {
+
+	p_private_config.ace_editor.setValue(p_tile.script);
+	console.log('script loaded');
+}
+
+function save_script (p_private_config, p_tile) {
+
+	p_tile.script = p_private_config.ace_editor.getValue();
+	console.log('script saved');
+}
+
 /*
 function draw_map_grid (p_private_config) {
 

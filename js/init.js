@@ -53,5 +53,5 @@ function loading_end (p_private_config, p_editor_config, p_public_config) {
 
 	p_private_config.can_edit = true;
 	create_empty_map(p_private_config, p_editor_config, p_public_config);
-	step(p_private_config, p_editor_config, p_public_config);	
+	draw(p_private_config, p_editor_config, p_public_config);	
 }

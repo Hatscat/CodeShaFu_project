@@ -1,45 +1,18 @@
 function step (p_private_config, p_editor_config, p_public_config) {
 
-	p_private_config.buffer_ctx.fillStyle = "#000";
-	p_private_config.buffer_ctx.fillRect(0, 0, p_private_config.buffer.width, p_private_config.buffer.height);
-
 	p_public_config.map.forEach(function (tile, i) {
-
-		if (!p_private_config.is_paused) {
 			
-			if (tile.script.indexOf('this.setup') > -1 && tile.script.indexOf('this.update') > -1) { // one shoot
+		if (tile.script.indexOf('this.setup') > -1 && tile.script.indexOf('this.update') > -1) { // one shoot
 
-				if (!tile.setup_script) {
-					tile.setup_script = eval(tile.script.slice(0, tile.script.indexOf('this.update')));
-					tile.setup_script();
-				}
-
-				tile.update_script = eval(tile.script.slice(tile.script.indexOf('this.update')));
-				tile.update_script();
+			if (!tile.setup_script) {
+				tile.setup_script = eval(tile.script.slice(0, tile.script.indexOf('this.update')));
+				tile.setup_script();
 			}
+
+			tile.update_script = eval(tile.script.slice(tile.script.indexOf('this.update')));
+			tile.update_script();
 		}
-
-		p_private_config.buffer_ctx.drawImage(
-			p_private_config.tilset_img,
-			p_private_config.tileset_sprites_sxy[tile.id].sx,
-			p_private_config.tileset_sprites_sxy[tile.id].sy,
-			p_private_config.tileset_tilesize,
-			p_private_config.tileset_tilesize,
-			(i % p_private_config.col_nb) * p_private_config.tile_size,
-			(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
-			p_private_config.tile_size,
-			p_private_config.tile_size);
-		
-		p_private_config.buffer_ctx.strokeStyle = "#6f6";
-		p_private_config.buffer_ctx.lineWidth = 1;
-		p_private_config.buffer_ctx.strokeRect(
-			(i % p_private_config.col_nb) * p_private_config.tile_size,
-			(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
-			p_private_config.tile_size,
-			p_private_config.tile_size);
 	});
-
-	p_private_config.ctx.drawImage(p_private_config.buffer, 0, 0);
 
 	p_public_config.step_count++;
 
