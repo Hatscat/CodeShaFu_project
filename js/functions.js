@@ -5,7 +5,7 @@ function load_image (sImageSrc, p_private_config) {
 	var img = new Image();
 	img.onload = function () {
 		// TODO : loader
-		cut_tileset(img, p_private_config.tileset_tilesize);
+		p_private_config.tileset_sprites_sxy = cut_tileset(img, p_private_config.tileset_tilesize);
 	};
 	img.src = sImageSrc;
 	return img;
@@ -59,11 +59,11 @@ function draw_stroke_box (xywh, color, size, p_private_config) {
 	p_private_config.buffer_ctx.globalAlpha = 1;
 }
 
-function create_empty_map (p_private_config) {
+function create_empty_map (p_private_config, p_editor_config, p_public_config) {
 
 	var map = [];
 
-	for (var i = p_private_config.tiles_nb; i--; map[i] = new Tile(null));
+	for (var i = p_private_config.tiles_nb; i--; map[i] = new Tile(0, p_public_config));
 	p_private_config.active_tile = {x:0, y:0};
 	map[0].show_script();
 

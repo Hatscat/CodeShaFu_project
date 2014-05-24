@@ -19,7 +19,7 @@ function step_onclick (p_private_config, p_editor_config, p_public_config) {
 
 function reset_onclick (p_private_config, p_editor_config, p_public_config) {
 
-	private_config.can_edit = true;
+	//private_config.can_edit = true;
 	set_pause(p_private_config, p_editor_config, p_public_config);
 	console.log('stop');
 }
