@@ -1,4 +1,7 @@
 /* --------------------------------- Global Functions --------------------------------- */
+function dragStoped(e, div) {
+	console.log('caca')
+}
 
 function load_image (sImageSrc, p_private_config) {
 

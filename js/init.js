@@ -34,6 +34,18 @@ function init_game () {
 		}
 	};
 
+	for(var i=0; i<9;i++)
+	{
+		$( "#tile"+i ).draggable({
+			revert: true,
+			helper: 'clone',
+			revertDuration: 10,
+			stop: function(event, ui) {
+				dragStoped(event, ui)
+			}
+		});
+	}
+
 	private_config.can_edit = true;
 	create_empty_map(private_config, editor_config, public_config);
 	//draw(private_config, editor_config, public_config);
