@@ -13,7 +13,7 @@ function load_image (sImageSrc, p_private_config, p_editor_config, p_public_conf
 }
 
 function dragStoped(e, div) {
-	console.log('caca')
+	console.log(div.helper.context.id)
 }
 
 

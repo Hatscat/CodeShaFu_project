@@ -31,7 +31,7 @@
 	    		<?php 
 	    			$temp = "";
 	    			for($i = 0; $i<9;$i++)
-	    				$temp.='<div id="tile'.$i.'"><img  src="img/tile'.$i.'.png" alt="tile"></div>';
+	    				$temp.='<div id="'.$i.'"><img  src="img/tile'.$i.'.png" alt="tile"></div>';
 
 	    			echo $temp;
 	    		?>

@@ -33,7 +33,7 @@ function init_game () {
 	{
 		for(var i=0; i<9;i++)
 		{
-			$( "#tile"+i ).draggable({
+			$( "#"+i ).draggable({
 				revert: true,
 				helper: 'clone',
 				revertDuration: 1,
