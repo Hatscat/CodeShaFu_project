@@ -1,0 +1,151 @@
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
+
+#cleanScreen #container2,
+#cleanScreen #container3,
+#cleanScreen #chat{
+  display: none;
+}
+
+html, body
+{
+	width: 100%;
+	height: 100%;
+	background: #D3E5E5;
+}
+
+#container
+{
+	background-color: black;
+	margin: 0px auto;
+	width: 1024px;
+}
+
+#container2
+{
+	background-color: white;
+	position: absolute;
+	left: 1%;
+	top: 1%;
+	margin: 0px auto;
+	width: 20%;
+	height: 27%;
+	border: 2px black solid;
+	border-radius: 65px;
+	box-shadow: 3px 1px 1px rgb(14, 13, 13);
+}
+
+#container3 
+{
+	background-color: rgb(255, 254, 250);
+	position: absolute;
+	left: 82%;
+	top: 10px;
+	margin: 0px auto;
+	width: 15%;
+	height: 52%;
+	border-radius: 63px;
+	box-shadow: 6px 1px 6px rgb(14, 13, 13);
+}
+
+#editor
+{
+	position: relative;
+	left: 0px;
+	top: 0; /* valeur fixe!!! (== 7 * 64) */
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 1024px;
+	font-size: 14px;
+}
+
+#canvas 
+{
+	position: relative;
+	top: 0;
+}
+
+.button
+{
+
+	width : 128px;
+	height: 24px;
+}
+
+#chat
+{
+	position: absolute;
+	left: -4%;
+	top: 25%;
+}
+
+#bubule
+{
+	position: absolute;
+	left: 17%;
+	top: 29%;
+	height: 10px;
+	width: 10px;
+	border: 2px solid black;
+	border-radius: 65px;
+	background-color: white;
+}
+
+#bubule2
+{
+	position: absolute;
+	left: 17%;
+	top: 31%;
+	height: 5px;
+	width: 5px;
+	border: 2px solid black;
+	border-radius: 65px;
+	background-color: white;
+}
+#text
+{
+	width: 89%;
+	height: 85%;
+	margin-left: 5%;
+	margin-top: 5%;
+	overflow: scroll;
+	font-family: Trebuchet MS;
+	font-size: 24px;
+
+}
+
+#text2
+{
+	width: 89%;
+	height: 85%;
+	margin-left: 5%;
+	margin-top: 5%;
+	overflow: scroll;
+	font-family: Trebuchet MS;
+	font-size: 24px;
+
+}
+#telethon
+{
+	width: 20%;
+	height: 20%;
+	font-size: 50px;
+}
+
+#banTelethon
+{
+	position: absolute;
+	left: 79%;
+	top: 77%;
+	width: 20%;
+	height: 20%;
+}
+
+
+
