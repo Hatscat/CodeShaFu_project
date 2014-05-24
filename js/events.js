@@ -34,6 +34,12 @@ function save_onclick (p_private_config, p_editor_config, p_public_config) {
 	console.log('save');
 }
 
+function mouse_pos_onclick (p_private_config, p_editor_config, p_public_config) {
+
+	p_private_config.mouse_pos = is_square_over([0, 0, p_private_config.canvas.width, p_private_config.canvas.height]) ?
+		(mouse.x / p_private_config.tile_size | 0) + (mouse.y / p_private_config.tile_size | 0) * p_private_config.col_nb : -1;
+	console.log("mouse pos :", p_private_config.mouse_pos);
+}
 
 function set_pause (p_private_config, p_editor_config, p_public_config) {
 

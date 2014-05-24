@@ -20,6 +20,7 @@ function new_private_config (p_canvas_render, p_canvas_buffer) {
 			runIntervalID 		: null,
 			tileset_sprites_sxy : null,
 			tilset_img 			: null,
+			mouse_pos 			: -1,
 			active_tile 		: {x:0, y:0},
 			tileset_tilesize 	: 64,
 			img_files : [
@@ -81,6 +82,7 @@ function resize_canvas (p_private_config) {
 	p_private_config.canvas.width = p_private_config.buffer.width = p_private_config.buffer.height = p_private_config.canvas_size = $("canvas").width();
 	p_private_config.canvas.height = p_private_config.canvas_height = p_private_config.canvas_size * p_private_config.row_col_ratio;
 	p_private_config.tile_size = p_private_config.canvas_size / p_private_config.col_nb;
+	mouse.setOffset(p_private_config.canvas.offsetLeft, p_private_config.canvas.offsetTop);
 	//$("editor").("height", document.body.offsetHeight - $("editor").offset().top + "px");
 	p_private_config.ace_editor.resize();
 }

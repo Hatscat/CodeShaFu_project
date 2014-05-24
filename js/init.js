@@ -12,14 +12,12 @@ function init_game () {
 	var editor_config 	= new_editor_config();
 	var public_config 	= new_public_config();
 
-
-	mouse.setOffset(private_config.canvas.offsetLeft, private_config.canvas.offsetTop);
-
 	private_config.ace_editor.setTheme("ace/theme/monokai");
 	private_config.ace_editor.getSession().setMode("ace/mode/javascript");
 	resize_canvas(private_config);
 
 	window.addEventListener('resize', function(){resize_canvas(private_config)});
+	window.addEventListener('mouseup', function(){mouse_pos_onclick(private_config, editor_config, public_config)});
 	
 	for (var bt in private_config.buttons) {
 

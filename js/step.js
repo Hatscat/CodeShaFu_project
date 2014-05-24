@@ -43,7 +43,7 @@ function step (p_private_config, p_editor_config, p_public_config) {
 
 	p_public_config.step_count++;
 
-	console.log(p_public_config.step_count)
+	//console.log(p_public_config.step_count)
 
 //     globalVar.oldMap = [];
 // 	for (var i = 0; i < globalVar.aMap.length; i++) {
