@@ -24,6 +24,10 @@ function reset_onclick (p_private_config, p_editor_config, p_public_config) {
 	//private_config.can_edit = true;
 	//set_pause(p_private_config, p_editor_config, p_public_config);
 	//console.log('stop');
+	localStorage['lvl'] = lvl;
+	localStorage['hints'] = hints;
+	localStorage['rules'] = rules;
+
 	window.location.reload();
 }
 
@@ -54,6 +58,7 @@ function save_onclick (p_private_config, p_editor_config, p_public_config) {
 		type:"post",
 		data: {"setMap": jsonData, "mapName": name,"hints":p_editor_config.ace_hints.getValue(), rules:p_editor_config.ace_rules.getValue()},
 		cache: false,
+
 		success: function(datas) {
 			//console.log(datas);
 			//debugger;
@@ -97,18 +102,15 @@ function readJsonMap (p_private_config, p_editor_config, p_public_config, jsonMa
 		originalMap = JSON.parse(originalMap);
 		
 		create_loaded_map(originalMap.aMap, p_private_config, p_editor_config, p_public_config);
-
-		/*if (!p_public_config.map.length) {
-			create_empty_map(p_private_config, p_editor_config, p_public_config);
-		}
+		/*
+		create_empty_map(p_private_config, p_editor_config, p_public_config);
 
 		for (var i = originalMap.aMap.length; i--;)  {	
 			p_public_config.map[i].id = originalMap.aMap[i].id
 			p_public_config.map[i].script = originalMap.aMap[i].script
-		}*/
-		
+		}
+		*/
 	} catch (err) {
-		//debugger;
 		create_empty_map(p_private_config, p_editor_config, p_public_config);
 	}
 }
@@ -134,8 +136,6 @@ function drag_stoped (p_div, p_private_config, p_editor_config, p_public_config)
 
 	if (p_public_config.map[p_private_config.mouse_pos]) {
 		p_public_config.map[p_private_config.mouse_pos].id = p_div.helper.context.id | 0;
-		
-		mouse_pos_onclick(p_private_config, p_editor_config, p_public_config);
 	}
 }
 

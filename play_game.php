@@ -96,9 +96,9 @@
 		<script>
 		  $(document).foundation();
 		  is_editor = false;
-		  lvl = <?php echo isset($nom) ? json_encode($nom):json_encode('nope')  ?>;
-		  hints = <?php echo isset($hints) ? json_encode($hints):json_encode('none') ?>;
-		  rules = <?php echo isset($rules) ? json_encode($rules):json_encode('none') ?>;
+		  lvl = localStorage['lvl'] || <?php echo isset($nom) ? json_encode($nom):json_encode('nope')  ?>;
+		  hints = localStorage['hints'] || <?php echo isset($hints) ? json_encode($hints):json_encode('none') ?>;
+		  rules =  localStorage['rules'] ||<?php echo isset($rules) ? json_encode($rules):json_encode('none') ?>;
 		</script>
 		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/functions.js" type="text/javascript"></script>

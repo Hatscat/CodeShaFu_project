@@ -10,7 +10,7 @@ function init_game () {
 	var canvas_buffer 	= document.createElement('canvas');
 	var private_config 	= new_private_config(canvas_render, canvas_buffer);
 	var editor_config 	= new_editor_config();
-	var public_config 	= new_public_config(private_config);
+	var public_config 	= new_public_config();
 
 	if (is_editor) {
 		editor_config.ace_hints.setTheme("ace/theme/monokai");
@@ -63,6 +63,15 @@ function init_game () {
 	private_config.img_files.forEach(function (file) {
 		private_config.tilset_img = load_image(file, private_config, editor_config, public_config);
 	});
+
+	if(localStorage['lvl'])
+		localStorage.removeItem('lvl');
+
+	if(localStorage['hints'])
+		localStorage.removeItem('hints');
+
+	if(localStorage['rules'])
+		localStorage.removeItem('rules');
 }
 
 function loading_end (p_private_config, p_editor_config, p_public_config) {
