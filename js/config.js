@@ -28,6 +28,7 @@ function new_private_config (p_canvas_render, p_canvas_buffer) {
 			],
 			buttons : {
 				run_pause 		: document.getElementById('run_bt'),
+				home	 		: document.getElementById('home_bt'),
 				step 			: document.getElementById('step_bt'),
 				reset 			: document.getElementById('reset_bt'),
 				format 			: document.getElementById('format_bt'),
@@ -35,6 +36,7 @@ function new_private_config (p_canvas_render, p_canvas_buffer) {
 			},
 			text_inputs : {
 				cat_dialog 		: document.getElementById('cat_dialog_text'),
+				save_name 		: document.getElementById('save_name'),
 				gm_rules 		: document.getElementById('gm_rules_text')
 			}
 		};
@@ -54,7 +56,9 @@ function new_editor_config () {
 
 		speed 			: 500,
 		cat_dialog_text : '',
-		gm_rules_text 	: ''
+		gm_rules_text 	: '',
+		aceHints 		: ace.edit('cat_dialog_editor'),
+		aceRules 		: ace.edit('gm_rules_editor'),
 	};
 
 	return config;
@@ -79,7 +83,7 @@ function new_public_config (p_private_config) {
 /*
 ** canvas responsive !
 */
-function resize_canvas (p_private_config) {
+function resize_canvas (p_private_config, p_editor_config) {
 
 	p_private_config.canvas.width = p_private_config.buffer.width = p_private_config.buffer.height = p_private_config.canvas_size = $("canvas").width();
 	p_private_config.canvas.height = p_private_config.canvas_height = p_private_config.canvas_size * p_private_config.row_col_ratio;
@@ -87,4 +91,10 @@ function resize_canvas (p_private_config) {
 	mouse.setOffset(p_private_config.canvas.offsetLeft, p_private_config.canvas.offsetTop);
 	//$("editor").("height", document.body.offsetHeight - $("editor").offset().top + "px");
 	p_private_config.ace_editor.resize();
+
+	if(p_editor_config)
+	{
+		p_editor_config.aceHints.resize();
+		p_editor_config.aceRules.resize();
+	}
 }

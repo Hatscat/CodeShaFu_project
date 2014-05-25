@@ -12,11 +12,29 @@ function init_game () {
 	var editor_config 	= new_editor_config();
 	var public_config 	= new_public_config(private_config);
 
+	if(is_editor)
+	{
+		editor_config.aceHints.setTheme("ace/theme/monokai");
+		editor_config.aceRules.setTheme("ace/theme/monokai");
+		editor_config.aceHints.setValue("Hints : ");
+		editor_config.aceRules.setValue("Rules : ");
+		editor_config.aceHints.getSession().setMode("ace/mode/text");
+		editor_config.aceRules.getSession().setMode("ace/mode/javascript");
+		
+	}
+	else
+	{
+		editor_config.aceHints.setTheme("ace/theme/github");
+		editor_config.aceHints.setReadOnly(true);
+		editor_config.aceRules.setTheme("ace/theme/github");
+		editor_config.aceRules.setReadOnly(true);
+		
+	}
 	private_config.ace_editor.setTheme("ace/theme/monokai");
 	private_config.ace_editor.getSession().setMode("ace/mode/javascript");
-	resize_canvas(private_config);
+	resize_canvas(private_config, editor_config);
 
-	window.addEventListener('resize', function(){resize_canvas(private_config)});
+	window.addEventListener('resize', function(){resize_canvas(private_config, editor_config)});
 	window.addEventListener('mousemove', function(){mouse_pos_onmove(private_config, editor_config, public_config)});
 	window.addEventListener('mouseup', function(){mouse_pos_onclick(private_config, editor_config, public_config)});
 	
@@ -31,7 +49,7 @@ function init_game () {
 	};
 
 	if (is_editor) {
-		for (var i = 9; i--;) {
+		for (var i = 10; i--;) {
 			$("#" + i).draggable({
 				revert: true,
 				helper: 'clone',
@@ -43,6 +61,9 @@ function init_game () {
 		}
 	}
 
+	if(lvl != "none")
+		loadMap(private_config, editor_config, public_config);
+	
 	private_config.img_files.forEach(function (file) {
 		private_config.tilset_img = load_image(file, private_config, editor_config, public_config);
 	});

@@ -31,9 +31,95 @@ function format_onclick (p_private_config, p_editor_config, p_public_config) {
 	console.log('reset');
 }
 
-function save_onclick (p_private_config, p_editor_config, p_public_config) {
+function home_onclick (p_private_config, p_editor_config, p_public_config) {
 
-	console.log('save');
+	document.location.href="index.php";
+}
+
+
+function save_onclick (p_private_config, p_editor_config, p_public_config) 
+{
+
+	var jsData = {aMap: []}; //globalVar.aMap
+
+	for (var i = 0; i < p_public_config.map.length; i++) 
+	{	
+		jsData.aMap[i] = {};
+		jsData.aMap[i].id = p_public_config.map[i].id;
+		jsData.aMap[i].script = p_public_config.map[i].script;
+	}
+
+	var jsonData = JSON.stringify(jsData);
+	$.ajax("php/mapData.php", {
+		type:"post",
+		data: {"setMap": jsonData, "mapName": name,"hints":p_editor_config.aceHints.getValue(), rules:p_editor_config.aceRules.getValue()},
+		cache: false,
+		success: function(datas)
+		{
+			console.log(datas)
+			debugger;
+			$("#feedbackSave").fadeIn(1500, function(){
+				$("#feedbackSave").fadeOut(1000);
+				
+			});
+		},
+		error: function(datas)
+		{
+			console.log("error : " + datas);
+		}
+	});
+
+	//create_empty_map(p_private_config, p_editor_config, p_public_config);
+}
+
+function loadMap (p_private_config, p_editor_config, p_public_config)
+{
+
+	p_editor_config.aceHints.setValue("Hints : " + hints);
+	p_editor_config.aceRules.setValue("Rules : "  + rules);
+
+	var configprivate = p_private_config;
+	var configEditor = p_editor_config;
+	var configPublic = p_public_config;
+	$.ajax("php/mapData.php", {
+
+		type:"post",
+		data: {"requestMap": lvl},
+		cache: false,
+		success: function (datas)
+		{
+			readJsonMap(configprivate, p_editor_config, p_public_config, datas)
+		},
+		error: function (datas)
+		{
+			create_empty_map(configprivate, p_editor_config, p_public_config);
+		}
+	});
+}
+
+function readJsonMap (p_private_config, p_editor_config, p_public_config, jsonMap)
+{
+	try
+	{
+		var originalMap = JSON.parse(jsonMap);
+		originalMap = JSON.parse(originalMap);
+		if(!p_public_config.map.length)
+			create_empty_map(p_private_config, p_editor_config, p_public_config);
+
+		for (var i = originalMap.aMap.length; i--;) 
+		{	
+			p_public_config.map[i].id = originalMap.aMap[i].id
+			p_public_config.map[i].script = originalMap.aMap[i].script
+		}
+		//return map
+		
+	}
+	catch (err)
+	{
+		debugger;
+		create_empty_map(p_private_config, p_editor_config, p_public_config);
+		
+	}
 }
 
 function mouse_pos_onmove (p_private_config, p_editor_config, p_public_config) {

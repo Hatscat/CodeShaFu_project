@@ -6,12 +6,31 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Foundation | Welcome</title>
+	<title>CodShaFu</title>
 	<link rel="stylesheet" href="css/foundation.css" />
 	<script src="js/vendor/modernizr.js"></script>
 </head>
 
 <body> <!-- id="cleanScreen" to remove some stuffs -->
+
+	<?php
+		error_reporting(E_ALL);
+		include("config.php");
+		$connexion = new PDO($source, $utilisateur, $motDePasse);
+
+		try
+		{
+			$connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$requete = 'SELECT ID, nomFichier FROM lvl';
+			$resultat = $connexion->query($requete);
+
+		}
+		catch(PDOException $e)
+		{
+			print 'Erreur PDO : '.$e->getMessage().'<br />';
+			die();
+		}
+	?>
 
 	<div class="row">
 		<div class="large-5 large-offset-4 columns">
@@ -21,14 +40,14 @@
 
 	<div class="row">
 		<div class="large-6 large-offset-3 columns">
-			<form>
+			<form method="post" action="editor.php">
 				<div class="row">
 					<div class="large-3 columns"
 						<label for="mapName" class="right inline" >Map Name :</label>
 					</div>
 
 					<div class="large-7 columns">
-						<input id="mapName" type="text" placeholder="nameOfTheYear" />
+						<input name="mapName" type="text" value="noName"/>
 					</div>
 				</div>
 
@@ -40,24 +59,30 @@
 					</div>
 
 					<div class="large-7 columns">
-						<select id="blueprint">
-							<option value="none" selected>None</option>
-							<option value="loren">Husker</option>
-							<option value="ipsum">Starbuck</option>
-							<option value="conais">Hot Dog</option>
-							<option value="pas">Apollo</option>
-							<option value="la">Apollo</option>
-							<option value="suite">Apollo</option>
+						<select id="blueprint" name="lvl">
+							<?php
+								$temp = '<option value="none" selected>None</option>';
+
+								foreach ($resultat as $ligne) 
+								{
+									$temp .= '<option value="'. $ligne["ID"] .'">'.$ligne["nomFichier"].' </option>';
+								}
+
+								echo $temp;
+							?>
 						</select>
 					</div>
 				</div>
+
+				<br/>
+
+				<div class="row">
+					<div class="large-3 large-centered columns">
+						<input type="submit" class="large radius round button" value="Get Started"/>
+					</div>
+				</div>
+
 			</form>
-		</div>
-	</div>
-	<br/>
-	<div class="row">
-		<div class="large-3 large-centered columns">
-			<a href="editor.php" class="large radius round button">Get Started</a><br/>
 		</div>
 	</div>
 

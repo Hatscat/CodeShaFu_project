@@ -1,4 +1,33 @@
 <!-- *** CodShaFu Editor ! :p *** -->
+<?php
+	error_reporting(E_ALL);
+	if(isset($_POST["lvl"]) )
+	{
+		include("config.php");
+		$connexion = new PDO($source, $utilisateur, $motDePasse);
+
+		try
+		{
+			$connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$requete = 'SELECT nomFichier, hints, rules FROM lvl WHERE ID="'.$_POST["lvl"].'"';
+			$resultat = $connexion->query($requete);
+
+			foreach ($resultat as $ligne) 
+			{
+				$nom 	= $ligne["nomFichier"] ? $ligne["nomFichier"] : 'nope';
+				$hints 	= $ligne["hints"] ?  $ligne["hints"]:'nope';
+				$rules 	= $ligne["rules"] ?  $ligne["rules"]:'nope';
+			}
+
+		}
+		catch(PDOException $e)
+		{
+			print 'Erreur PDO : '.$e->getMessage().'<br />';
+			die();
+		}
+		
+	}
+?>
 
 <!DOCTYPE html>
 <html>
@@ -6,7 +35,7 @@
 	<head>
 	  <meta charset="utf-8" />
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	  <title>Foundation | Welcome</title>
+	  <title>CodShaFu</title>
 	  <link rel="stylesheet" href="css/foundation.css" />
 	  <link rel="stylesheet" href="css/style.css" />
 	  <script src="js/libs/vendor/modernizr.js"></script>
@@ -15,40 +44,62 @@
 	<body> <!-- id="cleanScreen" to remove some stuffs -->
 		<div class="row">
 			<div class="large-5 large-offset-4 columns">
-		    		<h1 class="text-center">Test for Freedom</h1>
+		    		<h1 class="text-center"><?php echo isset($_POST["mapName"]) ? $_POST["mapName"]:'nopelvl'; ?></h1>
 			</div>
 		</div>
 		<div class="rowCustom">
 			<div class="large-2 columns">
-				<div class="container">
-					<p id="cat_dialog" class="text-center"><!-- start slipsum code -->
-						My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand?</p>
-				</div>
+				<pre id="cat_dialog_editor"></pre>
 			</div>
-		    <canvas class="large-8 columns" id="canvas"></canvas>
 
-		    <div class="large-1 columns end">
+		    <div id="feedbackSave" class="large-6 columns large-offset-1 hide">
+		    	<div class="container">
+		    		<h1 class="text-center">Map saved !</h1>
+		    	</div>
+		    </div>
+
+		    <canvas class="large-8 columns" id="canvas"></canvas>
+		    <div class="large-1 columns ">
 	    		<?php 
 	    			$temp = "";
-	    			for($i = 0; $i<9;$i++)
+	    			for($i = 0; $i<5;$i++)
 	    				$temp.='<div id="'.$i.'"><img  src="img/tile'.$i.'.png" alt="tile"></div>';
 
 	    			echo $temp;
 	    		?>
 		    </div>
 
+    	    <div class="large-1 columns end">
+        		<?php 
+        			$temp = "";
+        			for($i = 5; $i<10;$i++)
+        				$temp.='<div id="'.$i.'"><img  src="img/tile'.$i.'.png" alt="tile"></div>';
+
+        			echo $temp;
+        		?>
+    	    </div>
+
 
 		</div>
 
 		<div class="rowCustom">
-		    <div class="large-2 large-offset-3 columns text-center ">
+
+			<div class="large-1 large-offset-2 columns">
+				<button class="success button" id="home_bt">Home</button>
+			</div>
+
+		    <div class="large-1 large-offset-1 columns text-center">
 		    	<button class="button" id="run_bt">RUN</button>
 		    </div>
-		    <div class="large-2 columns text-center ">
+		    <div class="large-1 columns text-center">
 		    	<button class="button" id="step_bt">STEP</button>
 		    </div>
-		    <div class="large-2 columns text-center end">
-		    	<button class="button" id="reset_bt">RESET</button>
+		    <div class="large-1 columns text-center">
+		    	<button class="button" id="clear_bt">CLEAR</button>
+		    </div>
+
+		    <div class="large-1 columns text-center end">
+		    	<button class="button" id="save_bt">SAVE</button>
 		    </div>
 		</div>
 
@@ -63,10 +114,7 @@
 		    </div>
 
 		    <div class="large-2 columns">
-		    	<div class="container">
-		    		<p id="gm_rules" class="text-center"><!-- start slipsum code -->
-		    			My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand?</p>
-		    	</div>
+		    	<pre id="gm_rules_editor"></pre>
 		    </div>
 
 		</div>
@@ -80,12 +128,16 @@
 		<script>
 		  $(document).foundation();
 		  is_editor = true
+		  lvl = <?php echo isset($nom) ? json_encode($nom):json_encode('nope')  ?>;
+		  hints = <?php echo isset($hints) ? json_encode($hints):json_encode('none') ?>;
+		  rules = <?php echo isset($rules) ? json_encode($rules):json_encode('none') ?>;
+		  name = <?php echo isset($_POST["mapName"]) ? json_encode($_POST["mapName"]):json_encode('nopelvl') ?>;
 		</script>
 		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/functions.js" type="text/javascript"></script>
+		<script src="js/draw.js" type="text/javascript"></script>
 		<script src="js/tile.class.js" type="text/javascript"></script>
 		<script src="js/events.js" type="text/javascript"></script>
-		<script src="js/draw.js" type="text/javascript"></script>
 		<script src="js/step.js" type="text/javascript"></script>
 		<script src="js/init.js" type="text/javascript"></script>
 
