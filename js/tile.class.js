@@ -9,6 +9,8 @@ var Tile = function (p_id, p_pos, p_public_config) {
 	this._below_self 	= null;
 	this._can_setup 	= false;
 	this._can_update 	= true;
+	this.setup 			= {};
+	this.update_script 	= {};
 }
 
 Tile.prototype.moveX = function (p_step) {

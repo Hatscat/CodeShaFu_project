@@ -1,12 +1,20 @@
 function step (p_private_config, p_editor_config, p_public_config) {
 
+	//var game_config = p_editor_config;
+
+
+	var victory, defeat; // arg, degueu... pour l'eval...
+	var map = p_public_config.map; // arg, degueu... pour l'eval...
+
+
+
 	p_public_config.previous_map = p_public_config.map.splice();
 
 	p_public_config.map.forEach(function (tile) {
 		tile._can_update = true;
 	});
 
-	console.log(p_editor_config.gm_rules_text)
+	//console.log(p_editor_config.gm_rules_text)
 
 	p_public_config.map.forEach(function (tile) {
 
@@ -45,6 +53,11 @@ function step (p_private_config, p_editor_config, p_public_config) {
 	});
 
 	eval(p_editor_config.gm_rules_text);
+
+	// arf ! degueu
+	p_editor_config.victory = victory;
+	p_editor_config.defeat = defeat;
+
 
 	if (p_editor_config.victory) {
 

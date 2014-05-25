@@ -56,7 +56,7 @@ function new_editor_config () {
 
 		speed 			: 500,
 		cat_dialog_text : 'Hints :\n',
-		gm_rules_text 	: '// RULES :\n\nif (false) {\n    config.victory = true;\n}\n\nif (false) {\n    config.defeat = true;\n}',
+		gm_rules_text 	: '// RULES :\n\nif ( false ) {\n    victory = true;\n}\n\nif ( false ) {\n    defeat = true;\n}',
 		victory 		: false,
 		defeat 			: false,
 		ace_hints 		: ace.edit('cat_dialog_editor'),
