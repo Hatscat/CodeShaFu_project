@@ -25,7 +25,7 @@ function draw (p_private_config, p_editor_config, p_public_config) {
 		
 		if (p_private_config.is_paused) {
 			
-			p_private_config.buffer_ctx.strokeStyle = "#393";
+			p_private_config.buffer_ctx.strokeStyle = "#393"; // green grid
 			p_private_config.buffer_ctx.lineWidth = 1;
 			p_private_config.buffer_ctx.strokeRect(
 				(i % p_private_config.col_nb) * p_private_config.tile_size,
@@ -33,20 +33,19 @@ function draw (p_private_config, p_editor_config, p_public_config) {
 				p_private_config.tile_size,
 				p_private_config.tile_size);
 		}
-		
 
 		if (tile.script != p_public_config.setup_script + p_public_config.update_script) {
 
-			draw_stroke_box([
+			draw_stroke_box([ // edited tile
 				(i % p_private_config.col_nb) * p_private_config.tile_size,
 				(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
 				p_private_config.tile_size,
 				p_private_config.tile_size
-			], '#960', 0.3, 0, p_private_config);
+			], '#f00', 0.3, 1, p_private_config);
 		}
 	});
 	
-	draw_stroke_box(active_tile_box, '#a3f', 0.2, 2, p_private_config);
+	draw_stroke_box(active_tile_box, '#a3f', 0.2, 2, p_private_config); // selected tile
 
 	p_private_config.ctx.drawImage(p_private_config.buffer, 0, 0);
 

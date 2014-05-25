@@ -1,6 +1,10 @@
 function step (p_private_config, p_editor_config, p_public_config) {
 
-	p_public_config.map.forEach(function (tile, i) {
+	p_public_config.map.forEach(function (tile) {
+		tile._can_update = true;
+	});
+
+	p_public_config.map.forEach(function (tile) {
 
 		/* lecture des scripts */
 		if (tile.script.indexOf('this.setup') > -1 && tile.script.indexOf('this.update') > -1) {
@@ -14,8 +18,11 @@ function step (p_private_config, p_editor_config, p_public_config) {
 				tile.setup = eval(setup_str);
 			}
 
-			tile.update_script = eval(tile.script.slice(tile.script.indexOf('this.update')));
-			tile.update_script();
+			if (tile._can_update) {
+				tile._can_update = false;
+				tile.update_script = eval(tile.script.slice(tile.script.indexOf('this.update')));
+				tile.update_script();
+			}
 
 			for (var i in tile.setup) {
 				props += '\n    ' + i + ': ' + tile.setup[i] + ',';

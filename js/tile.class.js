@@ -8,13 +8,14 @@ var Tile = function (p_id, p_pos, p_public_config) {
 	this.script 		= this.game_config.setup_script + this.game_config.update_script;
 	this._below_self 	= null;
 	this._can_setup 	= false;
+	this._can_update 	= true;
 }
 
 Tile.prototype.moveX = function (p_step) {
 
 	if ( !(this.game_config.step_count % (Math.abs(1 / p_step) | 0) | 0) // délai
-		&& (this.pos % this.game_config.col_nb) // bord gauche
-		&& (this.pos % this.game_config.col_nb) < (this.game_config.col_nb - 1) ) { // bord droit
+		&& ( (p_step < 0 && this.pos % this.game_config.col_nb > 0) // bord gauche
+			|| (p_step > 0 && this.pos % this.game_config.col_nb < this.game_config.col_nb - 1) ) ) { // bord droit
 		
 		this._manage_new_pos(this.pos, p_step, false);
 	}
@@ -23,8 +24,8 @@ Tile.prototype.moveX = function (p_step) {
 Tile.prototype.moveY = function (p_step) {
 
 	if ( !(this.game_config.step_count % (Math.abs(1 / p_step) | 0) | 0) // délai
-		&& (this.pos > this.game_config.col_nb) // bord haut
-		&& (this.pos + this.game_config.col_nb) < (this.game_config.col_nb * this.game_config.row_nb) ) { // bord bas
+		&& ( (p_step < 0 && this.pos > this.game_config.col_nb) // bord haut
+			|| (p_step > 0 && this.pos + this.game_config.col_nb < this.game_config.col_nb * this.game_config.row_nb) ) ) { // bord bas
 
 		this._manage_new_pos(this.pos, p_step, true);
 	}
