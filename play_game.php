@@ -42,7 +42,7 @@
 	<body> <!-- id="cleanScreen" to remove some stuffs -->
 		<div class="row">
 			<div class="large-5 large-offset-4 columns">
-		    		<h1 class="text-center"><?php echo isset($nom) ? $nom:'nope'  ?></h1>
+		    		<h1 id="levelName" class="text-center"></h1>
 			</div>
 		</div>
 		<div class="rowCustom">

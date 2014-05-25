@@ -81,9 +81,8 @@ function save_onclick (p_private_config, p_editor_config, p_public_config) {
 
 function loadMap (p_private_config, p_editor_config, p_public_config) {
 
-	p_editor_config.ace_hints.setValue(hints);
-	p_editor_config.ace_rules.setValue(rules);
-
+	p_editor_config.cat_dialog_text = hints;
+	p_private_config.text_inputs.levelName.innerHTML = lvl || name;
 	var configprivate = p_private_config;
 	var configEditor = p_editor_config;
 	var configPublic = p_public_config;
@@ -92,7 +91,7 @@ function loadMap (p_private_config, p_editor_config, p_public_config) {
 		data: {"requestMap": lvl},
 		cache: false,
 		success: function (datas) {
-			readJsonMap(configprivate, p_editor_config, p_public_config, datas);
+			setTimeout(function(){readJsonMap(configprivate, p_editor_config, p_public_config, datas)}, 500);
 		},
 		error: function (datas) {
 			create_empty_map(configprivate, p_editor_config, p_public_config);

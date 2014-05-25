@@ -44,7 +44,7 @@
 	<body> <!-- id="cleanScreen" to remove some stuffs -->
 		<div class="row">
 			<div class="large-5 large-offset-4 columns">
-		    		<h1 class="text-center"><?php echo isset($_POST["mapName"]) ? $_POST["mapName"]:'nopelvl'; ?></h1>
+		    		<h1 id="levelName" class="text-center"></h1>
 			</div>
 		</div>
 		<div class="rowCustom">
@@ -131,7 +131,7 @@
 		  lvl = <?php echo isset($nom) ? json_encode($nom):json_encode('nope')  ?>;
 		  hints = <?php echo isset($hints) ? json_encode($hints):json_encode('none') ?>;
 		  rules = <?php echo isset($rules) ? json_encode($rules):json_encode('none') ?>;
-		  name = <?php echo isset($_POST["mapName"]) ? json_encode($_POST["mapName"]):json_encode('nopelvl') ?>;
+		  name = <?php echo isset($_POST["mapName"]) ? json_encode($_POST["mapName"]):json_encode('false') ?>;
 		</script>
 		<script src="js/config.js" type="text/javascript"></script>
 		<script src="js/functions.js" type="text/javascript"></script>

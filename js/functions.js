@@ -55,6 +55,7 @@ function create_empty_map (p_private_config, p_editor_config, p_public_config) {
 	for (var i = p_private_config.tiles_nb; i--; p_public_config.map[i] = new Tile(0, i, p_public_config));
 	p_private_config.active_tile = 0;
 	show_script(p_private_config, p_public_config.map[0]);
+	resize_canvas(p_private_config, p_editor_config);
 }
 
 function create_loaded_map (p_map_data, p_private_config, p_editor_config, p_public_config) {
@@ -68,6 +69,7 @@ function create_loaded_map (p_map_data, p_private_config, p_editor_config, p_pub
 
 	p_private_config.active_tile = 0;
 	show_script(p_private_config, p_public_config.map[0]);
+	resize_canvas(p_private_config, p_editor_config);
 }
 
 function reset_array (p_array) {
