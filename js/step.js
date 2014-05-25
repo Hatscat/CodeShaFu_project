@@ -1,8 +1,7 @@
 function step (p_private_config, p_editor_config, p_public_config) {
 
 	p_public_config.map.forEach(function (tile, i) {
-
-		/* lecture des scripts */
+			
 		if (tile.script.indexOf('this.setup') > -1 && tile.script.indexOf('this.update') > -1) {
 
 			var setup_str = tile.script.slice(0, tile.script.indexOf('this.update'));

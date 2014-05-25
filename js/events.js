@@ -23,6 +23,10 @@ function reset_onclick (p_private_config, p_editor_config, p_public_config) {
 	//private_config.can_edit = true;
 	//set_pause(p_private_config, p_editor_config, p_public_config);
 	//console.log('stop');
+	localStorage['lvl'] = lvl;
+	localStorage['hints'] = hints;
+	localStorage['rules'] = rules;
+
 	window.location.reload();
 }
 
@@ -57,7 +61,6 @@ function save_onclick (p_private_config, p_editor_config, p_public_config)
 		success: function(datas)
 		{
 			console.log(datas)
-			debugger;
 			$("#feedbackSave").fadeIn(1500, function(){
 				$("#feedbackSave").fadeOut(1000);
 				
@@ -76,7 +79,7 @@ function loadMap (p_private_config, p_editor_config, p_public_config)
 {
 
 	p_editor_config.aceHints.setValue("Hints : " + hints);
-	p_editor_config.aceRules.setValue("Rules : "  + rules);
+	p_editor_config.aceRules.setValue(rules);
 
 	var configprivate = p_private_config;
 	var configEditor = p_editor_config;
@@ -103,8 +106,7 @@ function readJsonMap (p_private_config, p_editor_config, p_public_config, jsonMa
 	{
 		var originalMap = JSON.parse(jsonMap);
 		originalMap = JSON.parse(originalMap);
-		if(!p_public_config.map.length)
-			create_empty_map(p_private_config, p_editor_config, p_public_config);
+		create_empty_map(p_private_config, p_editor_config, p_public_config);
 
 		for (var i = originalMap.aMap.length; i--;) 
 		{	
@@ -116,7 +118,6 @@ function readJsonMap (p_private_config, p_editor_config, p_public_config, jsonMa
 	}
 	catch (err)
 	{
-		debugger;
 		create_empty_map(p_private_config, p_editor_config, p_public_config);
 		
 	}
@@ -143,8 +144,6 @@ function drag_stoped (p_div, p_private_config, p_editor_config, p_public_config)
 
 	if (p_public_config.map[p_private_config.mouse_pos]) {
 		p_public_config.map[p_private_config.mouse_pos].id = p_div.helper.context.id | 0;
-		
-		mouse_pos_onclick(p_private_config, p_editor_config, p_public_config);
 	}
 }
 

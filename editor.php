@@ -95,7 +95,7 @@
 		    	<button class="button" id="step_bt">STEP</button>
 		    </div>
 		    <div class="large-1 columns text-center">
-		    	<button class="button" id="clear_bt">CLEAR</button>
+		    	<button class="button" id="reset_bt">RESET</button>
 		    </div>
 
 		    <div class="large-1 columns text-center end">

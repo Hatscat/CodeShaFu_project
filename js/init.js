@@ -10,7 +10,7 @@ function init_game () {
 	var canvas_buffer 	= document.createElement('canvas');
 	var private_config 	= new_private_config(canvas_render, canvas_buffer);
 	var editor_config 	= new_editor_config();
-	var public_config 	= new_public_config(private_config);
+	var public_config 	= new_public_config();
 
 	if(is_editor)
 	{
@@ -28,7 +28,7 @@ function init_game () {
 		editor_config.aceHints.setReadOnly(true);
 		editor_config.aceRules.setTheme("ace/theme/github");
 		editor_config.aceRules.setReadOnly(true);
-		
+
 	}
 	private_config.ace_editor.setTheme("ace/theme/monokai");
 	private_config.ace_editor.getSession().setMode("ace/mode/javascript");
@@ -67,6 +67,15 @@ function init_game () {
 	private_config.img_files.forEach(function (file) {
 		private_config.tilset_img = load_image(file, private_config, editor_config, public_config);
 	});
+
+	if(localStorage['lvl'])
+		localStorage.removeItem('lvl');
+
+	if(localStorage['hints'])
+		localStorage.removeItem('hints');
+
+	if(localStorage['rules'])
+		localStorage.removeItem('rules');
 }
 
 function loading_end (p_private_config, p_editor_config, p_public_config) {
