@@ -63,6 +63,15 @@ function init_game () {
 	private_config.img_files.forEach(function (file) {
 		private_config.tilset_img = load_image(file, private_config, editor_config, public_config);
 	});
+
+	if(localStorage['lvl'])
+		localStorage.removeItem('lvl');
+
+	if(localStorage['hints'])
+		localStorage.removeItem('hints');
+
+	if(localStorage['rules'])
+		localStorage.removeItem('rules');
 }
 
 function loading_end (p_private_config, p_editor_config, p_public_config) {

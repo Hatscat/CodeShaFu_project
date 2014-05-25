@@ -24,6 +24,10 @@ function reset_onclick (p_private_config, p_editor_config, p_public_config) {
 	//private_config.can_edit = true;
 	//set_pause(p_private_config, p_editor_config, p_public_config);
 	//console.log('stop');
+	localStorage['lvl'] = lvl;
+	localStorage['hints'] = hints;
+	localStorage['rules'] = rules;
+	
 	window.location.reload();
 }
 
