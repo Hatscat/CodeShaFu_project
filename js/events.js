@@ -3,17 +3,18 @@ function run_pause_onclick (p_private_config, p_editor_config, p_public_config) 
 	if (p_public_config.is_paused) {
 		set_pause(p_private_config, p_editor_config, p_public_config);
 		p_private_config.buttons.run_pause.innerHTML = 'RUN';
-		console.log('pause');
 	} else {
 		p_public_config.is_paused = true;
 		save_script(p_private_config, p_public_config.map[p_private_config.active_tile]);
 		p_private_config.runIntervalID = setInterval(function(){step(p_private_config, p_editor_config, p_public_config)}, p_editor_config.speed);
 		p_private_config.buttons.run_pause.innerHTML = 'PAUSE';
+		console.log('run');
 	}
 }
 
 function step_onclick (p_private_config, p_editor_config, p_public_config) {
 
+	save_script(p_private_config, p_public_config.map[p_private_config.active_tile]);
 	step(p_private_config, p_editor_config, p_public_config);
 	//console.log('step');
 }
@@ -28,7 +29,8 @@ function reset_onclick (p_private_config, p_editor_config, p_public_config) {
 
 function format_onclick (p_private_config, p_editor_config, p_public_config) {
 
-	console.log('reset');
+	//console.log('reset');
+	window.location.reload();
 }
 
 function home_onclick (p_private_config, p_editor_config, p_public_config) {
@@ -37,13 +39,11 @@ function home_onclick (p_private_config, p_editor_config, p_public_config) {
 }
 
 
-function save_onclick (p_private_config, p_editor_config, p_public_config) 
-{
+function save_onclick (p_private_config, p_editor_config, p_public_config) {
 
-	var jsData = {aMap: []}; //globalVar.aMap
+	var jsData = {aMap: []};
 
-	for (var i = 0; i < p_public_config.map.length; i++) 
-	{	
+	for (var i = 0; i < p_public_config.map.length; i++) {	
 		jsData.aMap[i] = {};
 		jsData.aMap[i].id = p_public_config.map[i].id;
 		jsData.aMap[i].script = p_public_config.map[i].script;
@@ -52,19 +52,16 @@ function save_onclick (p_private_config, p_editor_config, p_public_config)
 	var jsonData = JSON.stringify(jsData);
 	$.ajax("php/mapData.php", {
 		type:"post",
-		data: {"setMap": jsonData, "mapName": name,"hints":p_editor_config.aceHints.getValue(), rules:p_editor_config.aceRules.getValue()},
+		data: {"setMap": jsonData, "mapName": name,"hints":p_editor_config.ace_hints.getValue(), rules:p_editor_config.ace_rules.getValue()},
 		cache: false,
-		success: function(datas)
-		{
-			console.log(datas)
-			debugger;
-			$("#feedbackSave").fadeIn(1500, function(){
+		success: function(datas) {
+			//console.log(datas);
+			//debugger;
+			$("#feedbackSave").fadeIn(1500, function () {
 				$("#feedbackSave").fadeOut(1000);
-				
 			});
 		},
-		error: function(datas)
-		{
+		error: function (datas) {
 			console.log("error : " + datas);
 		}
 	});
@@ -72,53 +69,47 @@ function save_onclick (p_private_config, p_editor_config, p_public_config)
 	//create_empty_map(p_private_config, p_editor_config, p_public_config);
 }
 
-function loadMap (p_private_config, p_editor_config, p_public_config)
-{
+function loadMap (p_private_config, p_editor_config, p_public_config) {
 
-	p_editor_config.aceHints.setValue("Hints : " + hints);
-	p_editor_config.aceRules.setValue("Rules : "  + rules);
+	p_editor_config.ace_hints.setValue(hints);
+	p_editor_config.ace_rules.setValue(rules);
 
 	var configprivate = p_private_config;
 	var configEditor = p_editor_config;
 	var configPublic = p_public_config;
 	$.ajax("php/mapData.php", {
-
-		type:"post",
+		type: "post",
 		data: {"requestMap": lvl},
 		cache: false,
-		success: function (datas)
-		{
-			readJsonMap(configprivate, p_editor_config, p_public_config, datas)
+		success: function (datas) {
+			readJsonMap(configprivate, p_editor_config, p_public_config, datas);
 		},
-		error: function (datas)
-		{
+		error: function (datas) {
 			create_empty_map(configprivate, p_editor_config, p_public_config);
 		}
 	});
 }
 
-function readJsonMap (p_private_config, p_editor_config, p_public_config, jsonMap)
-{
-	try
-	{
+function readJsonMap (p_private_config, p_editor_config, p_public_config, jsonMap) {
+	
+	try {
 		var originalMap = JSON.parse(jsonMap);
 		originalMap = JSON.parse(originalMap);
-		if(!p_public_config.map.length)
-			create_empty_map(p_private_config, p_editor_config, p_public_config);
+		
+		create_loaded_map(originalMap.aMap, p_private_config, p_editor_config, p_public_config);
 
-		for (var i = originalMap.aMap.length; i--;) 
-		{	
+		/*if (!p_public_config.map.length) {
+			create_empty_map(p_private_config, p_editor_config, p_public_config);
+		}
+
+		for (var i = originalMap.aMap.length; i--;)  {	
 			p_public_config.map[i].id = originalMap.aMap[i].id
 			p_public_config.map[i].script = originalMap.aMap[i].script
-		}
-		//return map
+		}*/
 		
-	}
-	catch (err)
-	{
-		debugger;
+	} catch (err) {
+		//debugger;
 		create_empty_map(p_private_config, p_editor_config, p_public_config);
-		
 	}
 }
 
@@ -153,5 +144,5 @@ function set_pause (p_private_config, p_editor_config, p_public_config) {
 	p_public_config.is_paused = false;
 	clearInterval(p_private_config.runIntervalID);
 	p_private_config.runIntervalID = null;
-	console.log('run');
+	console.log('pause');
 }

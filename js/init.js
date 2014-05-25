@@ -12,24 +12,19 @@ function init_game () {
 	var editor_config 	= new_editor_config();
 	var public_config 	= new_public_config(private_config);
 
-	if(is_editor)
-	{
-		editor_config.aceHints.setTheme("ace/theme/monokai");
-		editor_config.aceRules.setTheme("ace/theme/monokai");
-		editor_config.aceHints.setValue("Hints : ");
-		editor_config.aceRules.setValue("Rules : ");
-		editor_config.aceHints.getSession().setMode("ace/mode/text");
-		editor_config.aceRules.getSession().setMode("ace/mode/javascript");
+	if (is_editor) {
+		editor_config.ace_hints.setTheme("ace/theme/monokai");
+		editor_config.ace_rules.setTheme("ace/theme/monokai");
+		editor_config.ace_hints.getSession().setMode("ace/mode/text");
+		editor_config.ace_rules.getSession().setMode("ace/mode/javascript");
 		
+	} else {
+		editor_config.ace_hints.setTheme("ace/theme/github");
+		editor_config.ace_hints.setReadOnly(true);
+		editor_config.ace_rules.setTheme("ace/theme/github");
+		editor_config.ace_rules.setReadOnly(true);
 	}
-	else
-	{
-		editor_config.aceHints.setTheme("ace/theme/github");
-		editor_config.aceHints.setReadOnly(true);
-		editor_config.aceRules.setTheme("ace/theme/github");
-		editor_config.aceRules.setReadOnly(true);
-		
-	}
+
 	private_config.ace_editor.setTheme("ace/theme/monokai");
 	private_config.ace_editor.getSession().setMode("ace/mode/javascript");
 	resize_canvas(private_config, editor_config);
@@ -50,7 +45,7 @@ function init_game () {
 
 	if (is_editor) {
 		for (var i = 10; i--;) {
-			$("#" + i).draggable({
+			$('#' + i).draggable({
 				revert: true,
 				helper: 'clone',
 				revertDuration: 1,
@@ -61,8 +56,9 @@ function init_game () {
 		}
 	}
 
-	if(lvl != "none")
+	if(lvl != 'none') {
 		loadMap(private_config, editor_config, public_config);
+	}
 	
 	private_config.img_files.forEach(function (file) {
 		private_config.tilset_img = load_image(file, private_config, editor_config, public_config);
@@ -72,6 +68,7 @@ function init_game () {
 function loading_end (p_private_config, p_editor_config, p_public_config) {
 
 	p_private_config.can_edit = true;
+	p_editor_config.show_script();
 	create_empty_map(p_private_config, p_editor_config, p_public_config);
 	draw(p_private_config, p_editor_config, p_public_config);	
 }

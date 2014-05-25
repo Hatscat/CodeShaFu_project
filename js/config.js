@@ -55,10 +55,20 @@ function new_editor_config () {
 	var config = {
 
 		speed 			: 500,
-		cat_dialog_text : '',
-		gm_rules_text 	: '',
-		aceHints 		: ace.edit('cat_dialog_editor'),
-		aceRules 		: ace.edit('gm_rules_editor'),
+		cat_dialog_text : 'Hints :\n',
+		gm_rules_text 	: '// RULES :\n\nif (false) {\n    config.victory = true;\n}\n\nif (false) {\n    config.defeat = true;\n}',
+		victory 		: false,
+		defeat 			: false,
+		ace_hints 		: ace.edit('cat_dialog_editor'),
+		ace_rules 		: ace.edit('gm_rules_editor'),
+		show_script 	: function () {
+			config.ace_hints.setValue(config.cat_dialog_text);
+			config.ace_rules.setValue(config.gm_rules_text);
+		},
+		save_script 	: function () {
+			config.cat_dialog_text = config.ace_hints.getValue();
+			config.gm_rules_text = config.ace_rules.getValue();
+		}
 	};
 
 	return config;
@@ -93,9 +103,8 @@ function resize_canvas (p_private_config, p_editor_config) {
 	//$("editor").("height", document.body.offsetHeight - $("editor").offset().top + "px");
 	p_private_config.ace_editor.resize();
 
-	if(p_editor_config)
-	{
-		p_editor_config.aceHints.resize();
-		p_editor_config.aceRules.resize();
+	if (p_editor_config) {
+		p_editor_config.ace_hints.resize();
+		p_editor_config.ace_rules.resize();
 	}
 }

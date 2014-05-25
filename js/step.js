@@ -1,8 +1,12 @@
 function step (p_private_config, p_editor_config, p_public_config) {
 
+	p_public_config.previous_map = p_public_config.map.splice();
+
 	p_public_config.map.forEach(function (tile) {
 		tile._can_update = true;
 	});
+
+	console.log(p_editor_config.gm_rules_text)
 
 	p_public_config.map.forEach(function (tile) {
 
@@ -39,6 +43,20 @@ function step (p_private_config, p_editor_config, p_public_config) {
 			//console.log(tile.script);
 		}
 	});
+
+	eval(p_editor_config.gm_rules_text);
+
+	if (p_editor_config.victory) {
+
+		// TODO : display Victory
+		console.log('Victory !');
+	}
+
+	if (p_editor_config.defeat) {
+
+		// TODO : display Defeat
+		console.log('Defeat !');
+	}
 
 	p_public_config.step_count++;
 

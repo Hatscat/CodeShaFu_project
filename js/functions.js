@@ -50,11 +50,34 @@ function draw_stroke_box (xywh, color, alpha, size, p_private_config) {
 
 function create_empty_map (p_private_config, p_editor_config, p_public_config) {
 
-	p_public_config.map = [];
+	reset_array(p_public_config.map);
 
 	for (var i = p_private_config.tiles_nb; i--; p_public_config.map[i] = new Tile(0, i, p_public_config));
 	p_private_config.active_tile = 0;
 	show_script(p_private_config, p_public_config.map[0]);
+}
+
+function create_loaded_map (p_map_data, p_private_config, p_editor_config, p_public_config) {
+
+	reset_array(p_public_config.map);
+
+	for (var i = p_private_config.tiles_nb; i--;) {
+		p_public_config.map[i] = new Tile(p_map_data[i].id, i, p_public_config);
+		p_public_config.map[i].script = p_map_data[i].script;
+	}
+
+	p_private_config.active_tile = 0;
+	show_script(p_private_config, p_public_config.map[0]);
+}
+
+function reset_array (p_array) {
+
+	if (p_array.length) {
+		p_array.forEach(function (elem) {
+			elem = null;
+		});
+	}
+	p_array = [];
 }
 
 function show_script (p_private_config, p_tile) {
