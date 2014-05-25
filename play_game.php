@@ -49,6 +49,13 @@
 			<div class="large-2 columns">
 				<pre id="cat_dialog_editor"></pre>
 			</div>
+
+			<div id="feedbackSave" class="large-6 columns large-offset-1 hide">
+				<div class="container">
+					<h1 id="message" class="text-center"></h1>
+				</div>
+			</div>
+			
 		    <canvas class="large-8 columns end" id="canvas"></canvas>
 
 

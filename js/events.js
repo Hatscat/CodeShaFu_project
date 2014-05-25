@@ -66,7 +66,7 @@ function save_onclick (p_private_config, p_editor_config, p_public_config) {
 		cache: false,
 		success: function(datas) {
 			//console.log(datas);
-			//debugger;
+			$("#message").text("Map Saved !");
 			$("#feedbackSave").fadeIn(1500, function () {
 				$("#feedbackSave").fadeOut(1000);
 			});
@@ -82,6 +82,7 @@ function save_onclick (p_private_config, p_editor_config, p_public_config) {
 function loadMap (p_private_config, p_editor_config, p_public_config) {
 
 	p_editor_config.cat_dialog_text = hints;
+	p_editor_config.gm_rules_text = rules;
 	p_private_config.text_inputs.levelName.innerHTML = lvl || name;
 	var configprivate = p_private_config;
 	var configEditor = p_editor_config;

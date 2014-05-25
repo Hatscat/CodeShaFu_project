@@ -54,7 +54,7 @@
 
 		    <div id="feedbackSave" class="large-6 columns large-offset-1 hide">
 		    	<div class="container">
-		    		<h1 class="text-center">Map saved !</h1>
+		    		<h1 id="message" class="text-center"></h1>
 		    	</div>
 		    </div>
 

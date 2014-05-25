@@ -61,14 +61,15 @@ function step (p_private_config, p_editor_config, p_public_config) {
 
 	if (p_editor_config.victory) {
 
-		// TODO : display Victory
-		console.log('Victory !');
+		$("#message").text("victory !");
+		$("#feedbackSave").fadeIn(1500);
+
 	}
 
 	if (p_editor_config.defeat) {
 
-		// TODO : display Defeat
-		console.log('Defeat !');
+		$("#message").text("Defeat !");
+		$("#feedbackSave").fadeIn(1500);
 	}
 
 	p_public_config.step_count++;
