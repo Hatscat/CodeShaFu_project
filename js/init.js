@@ -10,7 +10,7 @@ function init_game () {
 	var canvas_buffer 	= document.createElement('canvas');
 	var private_config 	= new_private_config(canvas_render, canvas_buffer);
 	var editor_config 	= new_editor_config();
-	var public_config 	= new_public_config();
+	var public_config 	= new_public_config(private_config);
 
 	private_config.ace_editor.setTheme("ace/theme/monokai");
 	private_config.ace_editor.getSession().setMode("ace/mode/javascript");

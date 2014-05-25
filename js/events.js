@@ -57,6 +57,8 @@ function drag_stoped (p_div, p_private_config, p_editor_config, p_public_config)
 
 	if (p_public_config.map[p_private_config.mouse_pos]) {
 		p_public_config.map[p_private_config.mouse_pos].id = p_div.helper.context.id | 0;
+		
+		mouse_pos_onclick(p_private_config, p_editor_config, p_public_config);
 	}
 }
 
