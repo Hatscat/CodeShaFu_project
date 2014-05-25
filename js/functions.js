@@ -12,10 +12,6 @@ function load_image (sImageSrc, p_private_config, p_editor_config, p_public_conf
 	return img;
 }
 
-function dragStoped(e, div) {
-	console.log('caca', e, div, div.helper.context.id)
-}
-
 function is_square_over (xywh) {
 
 	if (mouse.x >= xywh[0] && mouse.x < xywh[0] + xywh[2] && mouse.y >= xywh[1] && mouse.y < xywh[1] + xywh[3]) {
@@ -35,13 +31,7 @@ function cut_tileset (tileset_img, tile_size) {
 			sprites.push({sx: tile_size * c, sy: tile_size * r});
 		}
 	}
-
 	return sprites;
-
-	/*for (var s = 1, c = iColNb, r = iRowNb-1;
-		c ? c-- : 0 || r-- ? s-- ? c = iColNb-1 : 0 : 0;
-		globalVar.aImg_Content[(iColNb)*((iRowNb*r)+(1-r))-(iColNb-c)] = {sx: globalVar.iTileSize * c, sy: globalVar.iTileSize * r});*/
-	
 }
 
 function draw_stroke_box (xywh, color, alpha, size, p_private_config) {
@@ -70,28 +60,17 @@ function create_empty_map (p_private_config, p_editor_config, p_public_config) {
 function show_script (p_private_config, p_tile) {
 
 	p_private_config.ace_editor.setValue(p_tile.script);
-	console.log('script loaded');
+	//console.log('script loaded');
 }
 
 function save_script (p_private_config, p_tile) {
 
 	p_tile.script = p_private_config.ace_editor.getValue();
-	console.log('script saved');
+	p_tile._can_setup = true;
+	//console.log('script saved');
 }
 
-/*
-function draw_map_grid (p_private_config) {
 
-	for (var i = p_map.length; i--;) {
-		p_private_config.buffer_ctx.strokeStyle = "#6f6";
-		p_private_config.buffer_ctx.lineWidth = 1;
-		p_private_config.buffer_ctx.strokeRect(
-			i * p_private_config.tilemap_size,
-			j * p_private_config.tilemap_size,
-			p_private_config.tilemap_size,
-			p_private_config.tilemap_size);
-	}
-}*/
 /*
 function readJsonMap (jsonMap) {
 	try

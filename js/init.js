@@ -17,6 +17,7 @@ function init_game () {
 	resize_canvas(private_config);
 
 	window.addEventListener('resize', function(){resize_canvas(private_config)});
+	window.addEventListener('mousemove', function(){mouse_pos_onmove(private_config, editor_config, public_config)});
 	window.addEventListener('mouseup', function(){mouse_pos_onclick(private_config, editor_config, public_config)});
 	
 	for (var bt in private_config.buttons) {
@@ -29,16 +30,14 @@ function init_game () {
 		}
 	};
 
-	if(is_editor)
-	{
-		for(var i=0; i<9;i++)
-		{
-			$( "#"+i ).draggable({
+	if (is_editor) {
+		for (var i = 9; i--;) {
+			$("#" + i).draggable({
 				revert: true,
 				helper: 'clone',
 				revertDuration: 1,
-				stop: function(event, ui) {
-					dragStoped(event, ui)
+				stop: function (event, ui) {
+					drag_stoped(ui, private_config, editor_config, public_config);
 				}
 			});
 		}

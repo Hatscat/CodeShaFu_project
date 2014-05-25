@@ -42,7 +42,7 @@ function draw (p_private_config, p_editor_config, p_public_config) {
 				(i / p_private_config.col_nb | 0) * p_private_config.tile_size,
 				p_private_config.tile_size,
 				p_private_config.tile_size
-			], '#09f', 0.3, 0, p_private_config);
+			], '#960', 0.3, 0, p_private_config);
 		}
 	});
 	

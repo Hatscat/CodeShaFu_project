@@ -7,6 +7,7 @@ var Tile = function (p_id, p_pos, p_public_config) {
 	this.game_config 	= p_public_config;
 	this.script 		= this.game_config.setup_script + this.game_config.update_script;
 	this.below 			= null;
+	this._can_setup 	= false;
 
 	// this.x = 0;
 	// this.y = 0;

@@ -2,19 +2,38 @@ function step (p_private_config, p_editor_config, p_public_config) {
 
 	p_public_config.map.forEach(function (tile, i) {
 			
-		if (tile.script.indexOf('this.setup') > -1 && tile.script.indexOf('this.update') > -1) { // one shoot
+		if (tile.script.indexOf('this.setup') > -1 && tile.script.indexOf('this.update') > -1) {
 
-			if (!tile.setup_script) {
-				tile.setup_script = eval(tile.script.slice(0, tile.script.indexOf('this.update')));
-				tile.setup_script();
+			var setup_str = tile.script.slice(0, tile.script.indexOf('this.update'));
+			var new_setup_str = p_public_config.setup_script;
+			var props = '';
+			
+			if (tile._can_setup) {
+				tile._can_setup = false;
+				tile.setup = eval(setup_str);
 			}
 
 			tile.update_script = eval(tile.script.slice(tile.script.indexOf('this.update')));
 			tile.update_script();
+
+			for (var i in tile.setup) {
+				props += '\n    ' + i + ': ' + tile.setup[i] + ',';
+			}
+
+			if (props) {
+				new_setup_str = setup_str.replace(setup_str.slice(setup_str.indexOf('\n')), props + '\n};\n\n');
+				tile.script = tile.script.replace(setup_str, new_setup_str);
+			}
+
+			if (tile.pos == p_private_config.active_tile) {
+				show_script(p_private_config, tile);
+			}
+			//console.log(tile.script);
 		}
 	});
 
 	p_public_config.step_count++;
+
 
 	//console.log(p_public_config.step_count)
 
