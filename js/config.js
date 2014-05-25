@@ -71,6 +71,9 @@ function new_public_config () {
 		time 			: 0,
 		step_count 		: 0,
 		map 			: [],
+		previous_map 	: [],
+		col_nb 			: p_private_config.col_nb,
+		row_nb 			: p_private_config.row_nb,
 		setup_script 	: 'this.setup = {\n\n\n};\n\n',
 		update_script 	: 'this.update = function () {\n\n\n}'
 	};
