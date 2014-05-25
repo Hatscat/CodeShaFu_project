@@ -6,9 +6,9 @@ function run_pause_onclick (p_private_config, p_editor_config, p_public_config) 
 	} else {
 		p_public_config.is_paused = true;
 		save_script(p_private_config, p_public_config.map[p_private_config.active_tile]);
-		if (p_private_config.is_editor) {
+		//if (p_private_config.is_editor) {
 			p_editor_config.save_script();
-		}
+		//}
 		p_private_config.runIntervalID = setInterval(function(){step(p_private_config, p_editor_config, p_public_config)}, p_editor_config.speed);
 		p_private_config.buttons.run_pause.innerHTML = 'PAUSE';
 		console.log('run');
@@ -18,9 +18,9 @@ function run_pause_onclick (p_private_config, p_editor_config, p_public_config) 
 function step_onclick (p_private_config, p_editor_config, p_public_config) {
 
 	save_script(p_private_config, p_public_config.map[p_private_config.active_tile]);
-	if (p_private_config.is_editor) {
+	//if (p_private_config.is_editor) {
 		p_editor_config.save_script();
-	}
+	//}
 	step(p_private_config, p_editor_config, p_public_config);
 	//console.log('step');
 }

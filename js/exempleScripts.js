@@ -45,3 +45,70 @@ if (this.state.life < 1)
 
 // les detections // collisions
 if (!!this.detection("rat")) console.log("bouh")
+
+
+
+
+
+
+
+this.setup = {
+
+	name : 10
+};
+
+this.update = function () {
+
+	this.moveX(-1)
+}
+
+
+
+// RULES :
+
+for (var i = map.length; i--;) {
+
+	if (map[i].setup.name && !(map[i].pos % p_public_config.col_nb)) {
+
+		if (map[i].setup.name == 'dog') {
+			victory = true;
+		} else {
+			defeat = true;
+		}
+	}
+}
+
+
+
+this.setup = {
+	name : 'dog'
+};
+
+this.update = function () {
+	this.moveX(-0.3);
+}
+
+this.setup = {
+	name : 'cat'
+};
+
+this.update = function () {
+	this.moveX(-0.5);
+}
+
+this.setup = {
+	name : 'rat'
+};
+
+this.update = function () {
+	this.moveX(-1);
+}
+
+this.setup = {
+	name : 'tree'
+};
+
+this.update = function () {
+	// les arbres ne cours pas...
+}
+
