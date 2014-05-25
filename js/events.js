@@ -66,7 +66,7 @@ function save_onclick (p_private_config, p_editor_config, p_public_config) {
 		cache: false,
 		success: function(datas) {
 			//console.log(datas);
-			$("#message").text("Map Saved !");
+			//debugger;
 			$("#feedbackSave").fadeIn(1500, function () {
 				$("#feedbackSave").fadeOut(1000);
 			});
@@ -81,9 +81,9 @@ function save_onclick (p_private_config, p_editor_config, p_public_config) {
 
 function loadMap (p_private_config, p_editor_config, p_public_config) {
 
-	p_editor_config.cat_dialog_text = hints;
-	p_editor_config.gm_rules_text = rules;
-	p_private_config.text_inputs.levelName.innerHTML = lvl || name;
+	p_editor_config.ace_hints.setValue(hints);
+	p_editor_config.ace_rules.setValue(rules);
+
 	var configprivate = p_private_config;
 	var configEditor = p_editor_config;
 	var configPublic = p_public_config;
@@ -92,7 +92,7 @@ function loadMap (p_private_config, p_editor_config, p_public_config) {
 		data: {"requestMap": lvl},
 		cache: false,
 		success: function (datas) {
-			setTimeout(function(){readJsonMap(configprivate, p_editor_config, p_public_config, datas)}, 500);
+			readJsonMap(configprivate, p_editor_config, p_public_config, datas);
 		},
 		error: function (datas) {
 			create_empty_map(configprivate, p_editor_config, p_public_config);
