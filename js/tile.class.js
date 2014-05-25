@@ -6,7 +6,7 @@ var Tile = function (p_id, p_pos, p_public_config) {
 	this.pos 			= p_pos;
 	this.game_config 	= p_public_config;
 	this.script 		= this.game_config.setup_script + this.game_config.update_script;
-	this.below 			= null;
+	this._below_self 	= null;
 	this._can_setup 	= false;
 	this._can_update 	= true;
 }
@@ -179,5 +179,5 @@ Tile.prototype._manage_new_pos = function (p_old_pos, p_step, p_y_axis) {
 	// // {
 	// // 	this.oTarget = null;
 	// // }
-}
+//}
 
