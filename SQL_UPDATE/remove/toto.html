@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			#main{
+			    display:block;
+			    width:80%;
+			    padding:50px 10%;
+			    height:300px;
+			} 
+		</style>
+		<script type="text/javascript">
+			$(document).ready( function(){
+			    //Get the canvas &
+			    context var c = $('#respondCanvas');
+			    var ct = c.get(0).getContext('2d');
+			    var container = $(c).parent();
+
+			    //Run function when browser resizes
+			    $(window).resize( respondCanvas );
+
+			    function respondCanvas(){ 
+			        c.attr('width', $(container).width() ); //max width
+			        c.attr('height', $(container).height() ); //max height
+
+			        //Call a function to redraw other content (texts, images etc)
+			    }
+
+			    //Initial call 
+			    respondCanvas();
+
+			}); 
+		</script>
+	</head>
+	<body onresize="toto()">
+		<div id="main" role="main">
+		    <canvas id="respondCanvas" width="100" height="100">
+		        < !-- Provide fallback -->
+		    </canvas>
+		</div> 
+	</body>
+</html>
