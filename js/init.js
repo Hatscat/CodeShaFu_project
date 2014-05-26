@@ -24,7 +24,10 @@ function init_game () {
 		editor_config.ace_rules.setTheme("ace/theme/github");
 		editor_config.ace_rules.setReadOnly(true);
 	}
-
+	
+	editor_config.ace_rules.getSession().setUseWrapMode(true);
+	editor_config.ace_hints.getSession().setUseWrapMode(true);
+	private_config.ace_editor.getSession().setUseWrapMode(true);
 	private_config.ace_editor.setTheme("ace/theme/monokai");
 	private_config.ace_editor.getSession().setMode("ace/mode/javascript");
 	resize_canvas(private_config, editor_config);

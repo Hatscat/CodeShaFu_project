@@ -14,7 +14,7 @@ function step (p_private_config, p_editor_config, p_public_config) {
 		tile._can_update = true;
 	});
 
-	console.log(p_editor_config.gm_rules_text)
+	//console.log(p_editor_config.gm_rules_text)
 
 	p_public_config.map.forEach(function (tile) {
 
@@ -54,6 +54,8 @@ function step (p_private_config, p_editor_config, p_public_config) {
 
 	eval(p_editor_config.gm_rules_text);
 
+	// 	console.log(p_editor_config.gm_rules_text, victory, defeat ) 	
+
 	// arf ! degueu
 	p_editor_config.victory = victory;
 	p_editor_config.defeat = defeat;
@@ -62,13 +64,18 @@ function step (p_private_config, p_editor_config, p_public_config) {
 	if (p_editor_config.victory) {
 
 		// TODO : display Victory
-		console.log('Victory !');
+		//debugger;
+		run_pause_onclick (p_private_config, p_editor_config, p_public_config);
+		$("#message").text("victory !");
+		$("#feedbackSave").fadeIn(1500);
 	}
 
 	if (p_editor_config.defeat) {
 
 		// TODO : display Defeat
-		console.log('Defeat !');
+		run_pause_onclick (p_private_config, p_editor_config, p_public_config);
+		$("#message").text("Defeat !");
+		$("#feedbackSave").fadeIn(1500);
 	}
 
 	p_public_config.step_count++;

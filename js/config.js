@@ -35,6 +35,7 @@ function new_private_config (p_canvas_render, p_canvas_buffer) {
 				save 			: document.getElementById('save_bt')
 			},
 			text_inputs : {
+				levelName		: document.getElementById("levelName"),
 				cat_dialog 		: document.getElementById('cat_dialog_text'),
 				save_name 		: document.getElementById('save_name'),
 				gm_rules 		: document.getElementById('gm_rules_text')
